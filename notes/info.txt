@@ -1,0 +1,5 @@
+  LangLang Info
+  -------------
+
+This document contains all information that does not fit in elsewhere or isn't yet significant enough to warant its own document.
+

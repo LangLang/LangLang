@@ -15,6 +15,9 @@ moved to a "wiki-like" service in the future.
 
 Currently the following directory structure is being used:
 
+  trash/         - Contains more-or-less discarded or "throw-away" documents that are
+                   occasionally useful to reference but tends to get extremely out of
+                   date
   notes/         - Very rough brainstorming ideas and notes
   specification/ - More formal specification documents
   papers/        - Papers intended for peer-reviewed publication

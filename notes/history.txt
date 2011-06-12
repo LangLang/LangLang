@@ -1,0 +1,7 @@
+  LangLang - History
+  ------------------
+
+Some notes to help record the history of LangLang, so that it isn't lost over time (the concept is already two or so years old).
+
+
+

@@ -1,0 +1,208 @@
+
+\documentclass[11pt]{article}
+
+%%%%%%%%%%%%%%%%%%% PACKAGES %%%%%%%%%%%%%%%%%%%
+\usepackage{geometry}
+\geometry{a4paper}
+%\usepackage{gcl}
+%\usepackage{pfs}
+%\usepackage{algorithmic}
+%\usepackage{graphicx}
+%\usepackage{epstopdf}
+%\usepackage{natbib}
+%\usepackage{fancyvrb}
+\usepackage{float}
+%\usepackage{wrapfig}
+%\usepackage{proof}
+\usepackage{verbatim} 
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{stmaryrd}
+
+%\usepackage{listings}
+\usepackage{framed}
+%\usepackage{caption}
+%\usepackage{algo}
+%\usepackage{wsuipa}
+%\usepackage{ipalmacs}
+%\usepackage{textcomp}
+\usepackage{tocloft}
+\usepackage{listing}
+
+
+%%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%
+
+%\floatstyle{boxed}
+%\newfloat{example}{thp}{lxp}
+%\floatname{example}{Example}
+
+\newcommand{\listofexamplestitle}{List of Examples}
+\newlistof{example}{exp}{\listofexamplestitle}
+
+\newcommand{\example}[1]{%
+      \refstepcounter{example}
+      \par\noindent\caption{#1}
+      \addcontentsline{exp}{example}
+      {\protect\numberline{\theexample}#1}\par}
+
+\floatstyle{boxed}
+\newfloat{program}{thp}{lop}
+\floatname{program}{Example}
+
+%%%%%%%%%%%%%%%%%%%%%Stuff from SICL article%%%%%%
+
+%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{LangLang Specification\\\small{version 0.1}}
+\author{Rehno Lindeque}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+This document is intended as a specification for implementers to write implementations against. For language design and rationalle see \cite{ctxfoundation} and \cite{ctxrationalle}.
+
+\section{Overview}
+
+\section{General structure}
+\subsection{Source code structure}
+
+\subsection{Build system structure}
+
+\subsection{Syntactic Issues}
+
+\section{Semantics}
+\subsection{Definitions}
+
+\subsection{Recursive definitions}
+
+\subsection{Selection queries}
+
+\subsection{Mutation queries}
+
+\subsection{Stateful queries}
+
+\section{Pragmatics}
+\subsection{Processes, External calls, Non-determinism}
+
+\subsection{Distributed processes}
+
+\subsection{Live updates}
+
+\subsection{Proofs}
+
+\section{Issues}
+
+\paragraph{Issue 1.1 -- Should nested contexts overide parent contexts or only add information?}
+
+\subparagraph{Status:} Open
+
+\subparagraph{Discussion (2010-02-06):}
+Suppose 2 nested contexts, $a$ and $b$ are defined with a simple relation $x$ in each as illustrated bellow.
+\begin{program}[H]
+$
+  a \rightarrow \left [ \begin{array}{l}
+    x \rightarrow 4 \\
+    b \rightarrow [x \rightarrow 5]
+  \end{array} \right ] \\\\
+  a:b:x:5 \text{\quad\{ This will always be true. \}} \\
+  a:b:x:4 \text{\quad\{ But does x inherrit the relation in $a:x$ as well? \}}
+$
+\example{Nested domains with similar variables}
+\end{program}
+
+A user may expect nesting to override values defined in a parent context, however it seems desirable to have the ability to extend sets from parent contexts.
+
+Futhermore, consider cases in which we expect a relation to be inherited from a parent context.
+\begin{program}[H]
+$
+  a \rightarrow \left [ \begin{array}{l}
+    x \rightarrow 4 \\
+    b \rightarrow [x]
+  \end{array} \right ] \\\\
+  a:b:x:4 \text{\quad\{ True? \}}
+$
+\example{Automatic implication inheritance}
+\end{program}
+
+This becomes more complicated in a case such as this.
+\begin{program}[H]
+$
+  a \rightarrow \left [ \begin{array}{l}
+    x \rightarrow 4 \\
+    b \rightarrow 
+    \left [ \begin{array}{l}
+      x \rightarrow 5 \\
+      c \rightarrow x
+    \end{array} \right ]
+  \end{array} \right ] \\\\
+  a:b:c:x:5 \text{\quad\{ True? \}} \\
+  a:b:c:x:4 \text{\quad\{ True? \}}
+$
+\example{Automatic implication inheritance}
+\end{program}
+
+\subparagraph{Resolved (2010-02-06 to 2010-02-07):}
+Let us go back to the logical background of contexts.
+If we say that the symbol $\rightarrow$ means `implies' then $x \rightarrow 4$ and $b \implies x$ in the same context will tell us denotationaly that $b \rightarrow 4$. 
+(Furthermore the type system will tell us that $b$ implies that $4$ is implied by $x$. I.e. $b \rightarrow $ $_{x \rightarrow}4$.)
+Now, suppose one additional rule $c \rightarrow [ x \rightarrow 5 ]$ is added to the same context.
+Then $c$ implies that $x$ implies $5$. Does $x$ imply both $4$ and $5$ in the context of $c$?
+
+
+Consider a query definition $i \rightarrow b.x$. Translated into english $i$ implies whatever is implied by the predicate $b.x$ (I.e. ``x exists in b''). 
+Because if $x$ did not exist in $b$ then we would not expect $i$ to hold the value $4$. 
+The fact that we select $x$ from $b$ seems to imply that we are only looking for the specific $x$ that satisfies the type $_{b \rightarrow }x$. 
+Once the selection returns $_{b \rightarrow }x$ we can look up the symbol's codomain lazily if any exists. 
+In order to select all $x$ we could construct $i$ as $i \rightarrow [ x\:\: b.x ]$, hence this method is still general.
+
+
+However, suppose that we selected $x$ from yet another definition in the contex: $d \rightarrow x$. 
+Now the query $j \rightarrow d.x$ gives us the typed result $_{d \rightarrow } x$. 
+However this symbol has no codomains.
+Our definition of an arrow (the symbol $\rightarrow$) is based on boxing and unboxing. 
+An arrow defines a \em{labeled box} which is automatically unboxed by the compiler in a lazy manner.
+Hence if no arrow exists, then the compiler will look up one in a parent context.
+Thus, $_{d \rightarrow } x$ inherits the relations of $x$ in the parent context and $j:d:x:4$ holds.
+To create a boxed `empty set' that does not inherit from a parent context we simply use the notation $x \rightarrow []$.
+
+\subparagraph{Discussion (2010-02-07):} 
+How can we extend a symbol in the parent context with additional relations in the child context?
+
+(See ``Unboxing is Evaluation'')
+
+\subparagraph{Resolved (2010-02-07):}
+Perhaps it is possible to use the same `preceding domain' syntax for parent selection as we use for recursion. 
+Take the example below.
+\begin{program}[H]
+$
+  x \rightarrow 4\\
+  a \rightarrow  [ x \rightarrow  [ 5 \:\: @:x ]]\\
+  a:x:5 \text{\quad\{ True \}} \\
+  a:x:4 \text{\quad\{ True \}}
+$
+\example{Explicit inheritance}
+\end{program}
+
+\paragraph{Issue 1.2 -- Perhaps define operators $..$ and $::$ as `deep' selection?}
+
+\subparagraph{Status:} Open
+\subparagraph{References:} Issue 1.1
+\subparagraph{Discussion (2010-??-??):}
+
+\newpage
+\listofexample
+
+\listoftables
+
+\listoffigures
+
+\bibliographystyle{plain}
+\bibliography{langlangspec01}
+
+\end{document}
+
