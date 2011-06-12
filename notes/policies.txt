@@ -1,0 +1,59 @@
+  LangLang - Policies document
+  ----------------------------
+
+POLICIES
+========
+
+The LangLang policies are to some extent derived from the LangLang ideology
+
+EVOLUTION
+=========
+
+LangLang is specifically designed for evolution. In order to support the evolution of the language
+we need to remain nimble, yet provide stability for our users. This implies several policy decisions.
+
+* The LangLang versioning scheme. 
+  It is expected that version 1.0 of the language will be superceded by a version 2.0.
+  There is no way to design the language 
+
+* Explicitness: Defaults are avoided 
+  We require explicitnes in our code even when defaults are possible. The reason for this is that we cannot
+  yet be sure what defaults are most desireable or what future developments will bring. Surity will be improved
+  as the language ages.
+
+  (For example, for now the "stratification" levels and language version must be specified explicitly using pragmas and cannot be left out.)
+
+* Errors not warnings
+  For the time being there will be no warnings only errors. This ensures that programs remain uniform and more easily adapt to changes in the language.
+  It is also easier to retract this policy than to introduce it in future.
+  (I.e. this is related to the "explicitness rule")
+
+* Evolution is driven by an extension mechanism
+  Extensions will allow the language to evolve without requiring premature design decisions
+
+* Evolution is expected to interact with both axes of diversity and homogeneity... see the ideology notes
+
+
+SYNTACTIC WRAPPERS
+==================
+
+* Conventions are considered part of the syntax of every syntactic DSL. Hence, conventions are either enforced or automatically fixed
+  as part of the compilation process (unless files are protected by read-only flags?)
+  This is desireable 
+
+
+COMMUNITY
+=========
+
+
+
+INTEROPERABILITY
+================
+
+Interoperablity with other Languages, standards and tools is desireable
+
+
+TOOL SUPPORT
+============
+
+* Ease of use is foremost

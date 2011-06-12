@@ -1,0 +1,26 @@
+             LangLang
+  -------------------------------
+  "It's turtles all the way down"
+
+Copyright (C) Rehno Lindeque, 2011.
+
+This package contains the LangLang specifications, policies and other documentation in
+development. If you are looking for a LangLang compiler we recommend looking at "chomp"
+which can be found at https://github.com/LangLang/chomp/.
+
+It has not yet been decided exactly what licensing model should be used on documents.
+However, the information is publicly viewable and most likely a permissive license in
+the spirit of MIT/BSD will be used. It is also likely that this information will be
+moved to a "wiki-like" service in the future.
+
+Currently the following directory structure is being used:
+
+  notes/         - Very rough brainstorming ideas and notes
+  specification/ - More formal specification documents
+  papers/        - Papers intended for peer-reviewed publication
+
+All of the above are work-in-progress documents and should not be taken as "final".
+Once an appropriate framework can be found or built all design documents will be placed
+in a wikified framework that encourages colaboration and peer-review, history, release
+tags, semantic meta-data etc.
+

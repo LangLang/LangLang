@@ -1,0 +1,90 @@
+  LangLang Ideology
+  -----------------
+
+IDEOLOGY
+========
+
+In order to make decisions about the language features we need value heuristics for ideas that are not
+reducible to formal arguments.
+
+* Types of ideology
+  * The human view - "what is best ethically"
+  * The technical view - "what is best technically"
+
+Purpose
+-------
+
+* The LangLang ideology is necessarily incomplete and should not be taken as the "final" word on "value" principles.
+* We would like argue ideology in as rational a manner as possible, using logical and statistical principles where plausible.
+* Some ideological principles stack on top of other principles in a hierarchical manner while others provide a tension between them.
+  First we take note that often this tension can be lessened not through compromise but by realizing that they are two sides of 
+  the same coin and there may be a way of letting them compliment each other instead through innovation.
+  Hence we attempt to view conflicting issues from a different view-point rather than simply resorting to compromise immediately.
+  That said, if tension truly cannot be resolved then a suitable compromise must be found.
+
+ETHICAL (META-)IDEOLOGY
+=======================
+
+* Ideology is subjective and must be balanced around the opinion of its members
+  * It is possible (though not necessarily desireable) for groups to split off from the LangLang community due to ideological differences
+  * Ideology is not enforced on others - it is given as a guide to be used where it is deemed usefull (such as in making policy decisions)
+* Protect the freedom and rights of intelligent beings
+* Promote what you believe to be best in context / not only what serves your own interests best
+  * Also, respect other's rights to pursue what is in their own interest (but not necessarily letting it enroach on your own or others' rights)
+* Take responsibility for your beliefs
+  * Acknowledge counter-arguments 
+     * When they are valid or invalid, by affirmation or countering respectively
+  * Adequetely prepare your arguments, by backing it up with research and evidence or else acknowledge the lack thereof
+  * Avoid logical traps such as circular reasoning
+  * Avoid pointless bickering - an argument should have an expected outcome which benefits all parties involved. If it is apparent that
+    there is no benefit to continueing then terminate the discussion respectfully and put your energy to better use.
+* Provide value to the community
+  * In terms of language design our focus is on specifically enriching the value of the language for the LangLang community as a whole.
+  * What constitutes the "LangLang community" may not be clear, but might be approximated by the concept of "vested interest" (accumulated)
+
+PRACTICALITY
+============
+
+We adopt an ideology of practicality. Necessarily this might imply some trade-offs.
+
+* We prefer "long-term" utility to "short-term" utility, but acknowledge that "short-term" practical concerns are often necessary steps to reaching
+
+* Avoid "lock-in" where possible to remain flexible and nimble
+
+UNIFICATION
+===========
+
+One of the main objectives of LangLang is to unify the many disparate technologies that are hindering progress of the world's IT infrastructure
+and obstructing software development.
+
+* A universal language
+  Although LangLang is commonly refered to as a "Language-Language", it is also refered to as a "universal language".
+
+  (Please note, we refer to LangLang as "A universal language" not "THE universal language". Although we do hope that LangLang will become a
+  de facto standard 'universal' language we have no objective evidence that it is the best possible universal language - in fact it is almost
+  by definition, impossible. Thus, the humble "A" is prefered. This notion is also reflected in our language versioning and extension policy.)
+
+
+DIVERSITY vs HOMOGENEITY
+========================
+
+* One effect of unification is that homogeneity is desired, yet we find diversity is equaly desireable.
+  Where possible we would like encourage both without compromise.
+
+  (For example the language has one core calculus which allows all libraries to work together, however
+  multipe syntaxes may be used )
+
+THEORETICAL FORMALISM
+=====================
+
+* Take our tools from nature: I.e. mathematics logic etc.
+
+HUMAN ASPECTS
+=============
+
+* Cast theoretical tools into a human-understandable forms
+
+
+See also
+========
+Lambda the ultimate policies document may help with further ideas for ideological and policy decisions.
