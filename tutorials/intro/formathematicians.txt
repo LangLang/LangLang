@@ -58,6 +58,13 @@ LangLang in relation to state machines (automata)
 -------------------------------------------------
 * From turing machines to FSM's, PDA's etc
 
+LangLang in relation to Game Theory
+-----------------------------------
+(TODO: references)
+
+Also question-answer, but in a finite state way (concurrency is not taken into account... (but could be useful for future work? e.g. concurrent LangLang))
+
+
 LangLang as a tool
 ==================
 
