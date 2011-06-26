@@ -1,0 +1,24 @@
+       Introduction to LangLang for programming language designers 
+      =============================================================
+
+LangLang as a framework for new languages
+-----------------------------------------
+
+Routes:
+* DSL-like libraries
+* Syntactic extensions
+* Semantic extensions
+
+LangLang as a framework for PL tools
+------------------------------------
+* Analyses
+* Parsers
+* Compiler/VM/Garbage collection technologies
+
+LangLang for research & study
+-----------------------------
+
+* (See "open" research / peer-review project... coming soon)
+* LangLang design itself is "open"
+
+

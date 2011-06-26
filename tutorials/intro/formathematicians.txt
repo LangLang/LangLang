@@ -1,3 +1,7 @@
+       Introduction to LangLang for Mathematicians, Logicians and Computer Scientists
+      ================================================================================
+
+
 LangLang is built from the ground up from formal concepts, but does so in a somewhat unconventional manner. 
 For this reason the language \em{might} be of some interest to professional mathematicians and computer scientists, both as a tool and as a mathematical foundation.
 
