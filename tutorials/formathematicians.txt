@@ -1,0 +1,75 @@
+LangLang is built from the ground up from formal concepts, but does so in a somewhat unconventional manner. 
+For this reason the language \em{might} be of some interest to professional mathematicians and computer scientists, both as a tool and as a mathematical foundation.
+
+\sidenote{Please note, the ideas presented here are still very much unproven and lacking peer review. As an amateur mathematician, I will leave it to the "real" mathematicians to determine both the usefulness and originality the of these ideas. For posterity's sake we dispense with apologies such as these for the remainder of this article.}
+
+Foundational concepts 
+=====================
+
+Philosophical foundations ("Shut up and calculate!")
+-------------------------
+
+Mathematics as a mechanical process (for modelling the world)
+
+
+Calculus
+--------
+LangLang is built on top of  calculus; a slightly smaller calculus which is more-or-less the same but dispenses with some small amount of sugar in the basic syntax of LangLang.
+
+
+LangLang itself has very little sugar, but we will dispense with this for now and focus instead on ???-calculus
+
+Syntactic sugar
+---------------
+In order to use point-calculus it is convenient to define some additional syntactic sugar found in the basic LangLang syntax.
+
+
+LangLang in relation to lambda calculus
+---------------------------------------
+
+LangLang in relation to set theory / type theory
+------------------------------------------------
+
+* In relation to ZFC
+* In relation to 
+
+LangLang in relation to predicate logic
+---------------------------------------
+
+LangLang in relation to category theory
+---------------------------------------
+Fibrations in LangLang...
+
+LangLang and the Curry-Howard-Lambek correspondence
+---------------------------------------------------
+The Curry-Howard-Lambek correspondence is an observation .... (TODO: references)
+
+In a way LangLang tries to do away with the need for formulating the correspondence by simply restating both logic and categories in a operational framework (although, on the other hand this is more-or-less exactly the point of Curry-Howard and Lambek).
+
+LangLang in relation to Observational type theory
+-------------------------------------------------
+(TODO: references)
+
+LangLang in relation to Homotopy type theory and the Univalent Foundations of mathematics
+-----------------------------------------------------------------------------------------
+(TODO: references)
+
+LangLang in relation to state machines (automata)
+-------------------------------------------------
+* From turing machines to FSM's, PDA's etc
+
+LangLang as a tool
+==================
+
+Proof assistance
+----------------
+
+* In relation to Coq and the calculus of constructions
+* In relation to Agda
+* In relation to .... (todo)
+
+LangLang as a high-level calculator
+-----------------------------------
+
+* Using DSL's to model & then calculate
+
