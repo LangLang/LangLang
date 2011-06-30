@@ -1,0 +1,11 @@
+       Introduction to LangLang for Newbies
+      ======================================
+
+This is an introduction for people with little or no past programming experience. If you have already mastered another programming language you will still find this introduction informative, however you might want to take a look at one of the specialized introductions.
+
+I hope you will forgive me for using the term "newbie", it's used in good humor without derision. Few things could make me more proud than having beginners choose LangLang to start their programming education.
+
+LangLang is not intended as an "educational" programming language, it is a fully fledged industrial language. Never the less I believe that studying LangLang might be a great way to develop your programming skills. In fact, I'd even go so far as to boldly claim that LangLang will give you a head-start above your peers in other languages as it's a simple, practical language and yet mathematically deep and sophisticated. Learning the basics of LangLang is easy and mastering it is rewarding, but let me stop trying to wow you with small talk - let's just dive in and check it out.
+
+Unlike most of the popular languages that are around right now, LangLang is built on a rigorous formal foundation.
+
