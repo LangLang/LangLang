@@ -1,0 +1,19 @@
+                        Community and Organization
+                        --------------------------
+
+  "When I started designing LangLang I was following a purely technical imperative,
+  'let's design a better tool'. However, as time went by I realized that if it
+  should happen that I'm successful in popularizing the language and incubating 
+  a community this could involve a large number of people. It is increasingly
+  apparent that whenever any institution holds a great portion of a population's
+  mind-share, it has an ethical responsibility towards those people - and more than
+  that, perhaps even the potential to do great good in the world. However, this 
+  requires sound principles, a commitment to serving the citizenship rather than
+  ruling over them and resilience to non-civil forces. I have no idea whether it
+  is at all plausible that LangLang could influence the world to this degree, but
+  it would be a crime not to try now that the thought has been entertained." 
+  - Rehno Lindeque
+
+Our plan: Provide incentives for the community to self-organize. The interests of
+          LangLang as an organization should be designed to align with that of the
+          community.
