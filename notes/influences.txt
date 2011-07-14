@@ -1,0 +1,34 @@
+Note: This list is still very much work-in-progress and even lists possible future influences at the moment.
+
+LangLang has been influenced by more languages than could be reliably listed. However, here we list concrete ideas that can be found in the language.
+
+Haskell: 
+* Pure functional programming
+* Algebraic Data types
+* Domain specific languages (e.g. combinator libraries, quasi-quotation etc)
+* Corecursion
+
+Hume
+* Stratification
+* (TODO: Possibly cost models / resource bounds)
+
+Clean/DDC/BitC
+* (TODO: Possibly effect typing?)
+
+Coq/Agda
+* Total functions
+* Proof calculi
+
+Charity
+* (TODO: Possibly total functions)
+* (TODO: Possibly catagory theory concepts)
+
+Epigram?
+
+C++/D
+* Template programming / generics
+
+BitC
+* (TODO: Possibly effect typing and ideas for stateful programming in a typed environment)
+
+
