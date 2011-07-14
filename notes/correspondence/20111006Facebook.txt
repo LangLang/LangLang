@@ -1,0 +1,61 @@
+Rehno Lindeque
+I'm thinking of calling the compiler for langlang "chomp", what do you guys think?
+10 June at 19:15 · Privacy: · Like · 
+
+Lindsay Kay What's the implication?
+10 June at 19:26 · Like
+
+Lindsay Kay It's good though, implies power..
+10 June at 19:28 · Like
+Rehno Lindeque You know, usually I really have intricate reasons for a name but this one came to me somewhat subconciously. Never-the-less it has some implications. I was thinking that the funny thing about "langlang" is that it says exactly what it means...
+See more
+10 June at 19:45 · Like
+Rehno Lindeque Most likely if I ever create a parser generator (a.k.a a compiler-compiler) for the language, I'd call it chompchomp
+10 June at 19:56 · Like
+
+Attie Naude Isn't eating usually followed by digestion and excretion? I'm not sure that comparing the compiled version of an application with faeces is a desired connotation... :D
+10 June at 20:56 · Like
+Rehno Lindeque Lol, hey, every iteration of crap simply fertilizes the ground for the next crop of programs.
+10 June at 22:12 · Like
+
+Andrich van Wyk Or next chomp of programs.
+10 June at 22:17 · Like
+
+Alex Trujillo personally, I would go with nomnomnom. :)
+10 June at 22:34 · Like
+
+Alex Trujillo though, you could always use 'nom' as a metasyntactic variable in your docs. in fact, all docs should be in lolcat-speak. >:3
+10 June at 22:36 · Like
+Rehno Lindeque Hahaha, yes, I must use "nomnomnom" for something, that's brilliant! I seem to have convinced myself of "chomp" for the compiler but there will still be opportunity for lots more libraries & tools. By the way, don't know if you've seen it but there's already a programming language for lolcat-speak: http://lolcode.com/
+10 June at 23:10 · Like
+
+Lindsay Kay Hey is that a generative grammar? nom => nomnom
+10 June at 23:24 · Like
+
+Alex Trujillo heh, I forgot about that! so appropriate for its time.
+10 June at 23:42 · Like
+Rehno Lindeque Maybe nomnom could also be a virtual machine if I ever decide to split one off from the compiler. First you run chomp and then nomnom takes over :P I got the project for chomp together last night, today I'm starting with the first few lines of code! Yay! The compiler is being written in Haskell and it's also one of my influences so perhaps the "h" in c(h)omp can be a way of paying homage to it.
+11 June at 09:42 · Like
+
+Andrea Giassi ‎...in Italy chops means like "slowest brain people" :-)
+11 June at 11:00 · Like
+Rehno Lindeque Haha, well hopefully langlang programmers can laugh at themselves ;) what is "genius" in italy?
+11 June at 13:42 · Like
+
+Andrea Giassi ‎:)
+11 June at 16:32 · Like
+
+Lindsay Kay You could call it "Chopper" and it could report errors like "strueth, you didn't didn't half cock up line 649, it's as crook as a dog's hind leg mate".
+11 June at 16:46 · Like
+Rehno Lindeque I'm imagining an irish accent "Ahoy, have ya been in the bottle mate? Take a look at line 43 ya half-donkey-half-programme​r, it be buggr'd up royaly" ;)
+11 June at 16:59 · Like
+
+Lindsay Kay Perhaps an English gentleman? 'I say, I don't mean to appear impertinent, however I must confess to being less than enamored with the missing parenthesis on line 23'
+12 June at 16:58 · Unlike ·  1 person
+Rehno Lindeque LOL!! Or an american gangster rapper. "Yo yo yo homie, yah code is breakin' cuz yah rhymes be hatin'; The line'z 135, you feel me?"
+12 June at 21:16 · Like
+Rehno Lindeque ‎(where every instance of "syntax" is replaced by "rhymes")
+12 June at 21:16 · Like
+
+Lindsay Kay Word to your code, son.
+12 June at 22:14 · Like
