@@ -1,0 +1,17 @@
+
+Cool quotes!
+------------
+
+Note: These little jokes & quotes could cycle on the main webpage.
+
+LangLang - "It's turtles all the way down"      (Main slogan for LangLang, joke reference to something Guido van Rossum said in a blog post)
+Chomp    - "A brave new LangLang compiler"      (Main slogan for Chomp, reference to 'A Brave New World' by Aldous Huxley - also hoping our brave new world turns out a lot better ;))
+LangLang - "Executable abstract nonsense"       (Joke reference to category theory joke, also hopefully connection between LangLang and Category theory)
+LangLang - "Can you speaking my language?"      (A kind of stupid joke, but o well. Think I might have been subconciously influenced by a Collective Soul song)
+LangLang - "Never reinvent the wheel... unless you're in the business of making wheels." (Something I feel should be clarified for the sake of all indignant wheel makers)
+LangLang - "Sometimes the elephant simply does not want to be stuffed into a porcelain vase." (Porcelain vase = the beautifull program you envisioned, Elephant = your... *ahem* solution. Nothing against elephants though.)
+
+Naming jokes
+------------
+The names for LangLang and Chomp are funny because they say it "like it is". LangLang is short for a "language-language" which is exactly what it is (similar to the way APL stands for "A programming language"). "Chomp" is a kind of convoluted version of "Compiler" modified to sound like an onomatopea indicating that you're "eating" a source file. The fact that it's a onomatopea *might* be funny for someone with a extremely strange and geeky sense for humor by relating it to the concept of "language" :). Finally Chomp is bootstrapped in Haskell so the additional 'h' seems like an appropriate (slightly retronymed) tribute.
+
