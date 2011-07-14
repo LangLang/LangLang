@@ -1,0 +1,85 @@
+From: 	  Rehno Lindeque <...>
+To: 	    Bruce Watson <...>
+Subject: 	Hi again :)
+Date: 	  Sat, 09 Jul 2011 02:27:36 +0200
+
+Hi Bruce,
+
+Justin has been *encouraging* me to email you for some time, so I
+thought I'd give you a shout ;). I hope that you've been doing great!
+
+I've been busy working on a PL concept called LangLang for the past two
+or three years (which is entirely different from the one I originally
+discussed with you back in 2007). I'm already quite deep into the design
+and discussing it in detail could take me hours so I'm only going to
+mention what I'm busy with superficially.
+
+The core language is a programming calculus a little bit similar to a
+dependently typed lambda calculus. The language is stratified along
+several axes into layers that are, for example, side-effect free, total
+(provably terminating), non-recursive etc. Non-recursive definitions for
+example could be used as the basis for a JSON-like data format or a
+key-value store. The language will also have strong templating support
+for transforming structured data of the variety described above into say
+web pages / latex documents etc. (I also mentioned to Justin that
+perhaps one day his regex language could be embedded as a DSL into the
+language – it sounds like it might just be a good fit).
+
+The name LangLang is short for “Language-Language” which basically
+describes the purpose of the language as “a language for creating
+languages”. The philosophy is partly inspired by Stroustrup's quote
+“library design is language design” - so the language focusses a lot on
+DSL's and such. To help with popularity I'm also planning to add several
+thin layers of syntax over the core calculus, each of which
+superficially resembles an existing programming language family (E.g.
+“Pythonic”, “Mathy”, “Lispish”, “Rubian” etc).
+
+It's only about 3 weeks in but I've finally started with the first stage
+bootstrapping of a compiler/interpreter
+https://github.com/rehno-lindeque/chomp in haskell. I'm still somewhat
+oblivious of compiler technology but my plan at the moment is to lean
+quite heavily on supercompilation and more sort of “heuristic”
+techniques with LLVM at the bottom for low-level code generation. I'm
+still quite far away from this point, but I'd love to chat to you about
+this sort of stuff once I'm a bit more informed! One idea that I think
+might be quite novel, but perhaps completely unrealistic (who knows?),
+is to have the compiler attempt to generate good data structures
+automatically – once you see what the language looks like I think what I
+mean might be more clear.
+
+My plan for publishing is more-or-less to get the practical stuff done
+first and publish later. This lets me stay nimble and focus on long-term
+progress. 
+I'm also concerned that if I publish under a supervisor I think I'm
+going to need someone with an extremely strong background in topics like
+Category Theory. For example I have a sneaking suspicion there might be
+some overlap in my work with things like Homotopy Type Theory
+(http://homotopytypetheory.org/) and with Observational Type Theory –
+but these things are very heavily theoretical and I really might need
+some help to grok these. Finally, if I do eventually decide to go for a
+PhD I suspect it would benefit me more to publish through an institution
+like MIT or Cambridge that is well known for PL topics?
+
+Lastly, I actually have a naive idea that I'd like to try out – not sure
+how well it will work, but I think it's worth a try. I'd like to start a
+little open publishing platform based on gitit (gitit is a wiki that is
+backed by a git/darcs repository that can display latex documents). 
+The wiki would keep a detailed revision history by the author and a
+fully attributed commentary from others. Once you're ready you simply
+tag the final draft in the repo and submit your paper to an open journal
+for formal publication. Once it has been published people can still post
+commentary on the paper, links/citations to follow-up work or work that
+you might have missed etc. I think this will be very good thing for
+accountability and guiding other people doing related research.
+
+P.S. I also haven't forgotten about the parser paper either, but my PL
+work just has so much momentum that I simply don't have headroom for
+anything else. I'll pick up the parser again – I believe I've actually
+made some progress formalizing the thing in terms of automata and I
+started developing a little haskell app
+https://github.com/rehno-lindeque/genldparser for generating dot files
+that I can use in a paper (and also as a better parser generator
+eventually).
+
+Kind regards,
+Rehno
