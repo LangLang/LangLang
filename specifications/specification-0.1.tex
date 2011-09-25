@@ -1,0 +1,103 @@
+\documentclass[a4paper,11pt]{article}
+
+%%%%%%%%%%%%%%%%%%% PACKAGES %%%%%%%%%%%%%%%%%%%
+%\usepackage{tikz}
+%\usepackage{geometry}
+%\geometry{a4paper}
+%\usepackage{gcl}
+%\usepackage{float}
+%\usepackage{wrapfig}
+%\usepackage{proof}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{amsthm}
+
+%%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{LangLang 0.1}
+%\subtitle{Specification}
+\author{Rehno Lindeque}
+
+\maketitle
+
+\begin{abstract}
+A formal specification of the syntax and semantics for the programming language \textsl{LangLang}.
+\end{abstract}
+\textbf{Keywords:} \textsl{LangLang}, specification, denotational semantics, operational semantics
+
+\section{Introduction}
+
+\section{Syntax Specification}
+\subsection{Formal syntax}
+
+\subsection{Conventions used in this document}
+\label{sec:conventions}
+
+Normally \textsl{LangLang}'s syntax dictate that \emph{bottom} should be written as an empty pair of parentheses \texttt{()} to indicate that \emph{bottom} is formally just an empty collection in \textsl{LangLang}.
+In this document \emph{bottom} will usually be written using the standard mathematical notation $\bot$.
+However, occasionaly the standard syntax for \emph{bottom}, $()$ may be used to emphasize an empty collection.
+Similarly \emph{top}, written using an underscore \texttt{\_} in LangLang, corresponds to the mathematical notation $\top$ used in this document.\\
+
+In addition the following conventions are used to indicate the nature of syntactic elements in the semantics.
+
+\begin{description}
+  \item[$exs$] A collection of expressions (which may also be, depending on circumstance, $\top$, $\bot$ or a single expression).
+  \item[$ex$] A collection consisting of a single expression.
+  \item[\texttt{tok}] A token representing some atom.
+\end{description}
+
+\section{Denotational Semantics}
+
+The denotational semantics listed here serve as invariants that inform the design of the operational semantics in the next section.\\
+
+Atoms are the most basic elements in \textsl{LangLang} and are represented by simple whitespace free \emph{tokens} in source code.
+In denotational terms two atoms are equal if their token representation is identical.
+To facilitate generic programming tokens may also be constructed programmatically, however we delay this topic for later sections.\\
+
+Collections in \textsl{LangLang} do not have any \emph{structure} as all structure is derived using the concept of arrows.
+Intuitively this means that collections are fully defined by their contents and have transient ``boundaries'', so to speak.
+They cannot be nested in the sense that any collection that contains another collection is indistinguishable from the union of all their elements.
+This is unlike the common notion of \emph{sets} in mathematics which includes the set as a basic mathematical object with its own structure.\\
+
+Syntactically, parentheses are used to group things together in \textsl{LangLang}, thus collections may be represented in code by enclosing their contents.
+However, as mentioned above, collections' boundaries are transient and disappear when nested.
+\begin{eqnarray}
+(ex0\ (ex1\ (ex2\ ex3))\ ex4) \quad\triangleq\quad (ex0\ ex1\ ex2\ ex3\ ex4)
+\end  {eqnarray}
+
+Furthermore, when a collection contains only a single expression, parentheses may be dropped entirely.
+\begin{eqnarray}
+(ex) \quad\triangleq\quad ex
+\end  {eqnarray}
+
+An empty collection $()$ is denoted, in this document, with the symbol $\bot$\footnote{Please take note of the conventions for writing \emph{bottom} mentioned in section \ref{sec:conventions}.}.
+\begin{eqnarray}
+() \quad\triangleq\quad \bot
+\end{eqnarray}
+
+An arrow is an \emph{operational} construct which adds structure to the only other objects in the language, atoms.
+As collections are not objects, arrows may not connect to them directly, but instead connect only to their contents.
+For this reason, an arrow that connects to an empty collection does not exist.
+\begin{eqnarray}
+\bot \rightarrow exs \quad\triangleq\quad \bot \\
+exs \rightarrow \bot \quad\triangleq\quad exs \\
+(ex0\ ex1) \rightarrow ex2 \quad\triangleq\quad (ex0 \rightarrow ex2 \quad ex1 \rightarrow ex2) \\
+ex0 \rightarrow (ex1\ ex2) \quad\triangleq\quad (ex0 \rightarrow ex1 \quad ex0 \rightarrow ex1)
+\end{eqnarray}
+
+\section{Operational Semantics}
+\subsection{Ideal Semantics}
+
+\subsection{Implementation Semantics}
+
+\section{Implementation Details}
+
+\section*{Acknowledgements}
+
+\bibliographystyle{plain}
+\bibliography{specification-0.1}
+
+\end{document}
