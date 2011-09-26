@@ -46,7 +46,8 @@ In addition the following conventions are used to indicate the nature of syntact
 \begin{description}
   \item[$exs$] A collection of expressions (which may also be, depending on circumstance, $\top$, $\bot$ or a single expression).
   \item[$ex$] A collection consisting of a single expression.
-  \item[\texttt{tok}] A token representing some atom.
+  \item[$(e\ es)$] A collection consisting of the single expression $e$ grouped together with the collection of expression $es$.
+  \item[\texttt{t}] A token representing some atom.
 \end{description}
 
 \section{Denotational Semantics}
@@ -89,11 +90,18 @@ ex0 \rightarrow (ex1\ ex2) \quad\triangleq\quad (ex0 \rightarrow ex1 \quad ex0 \
 \end{eqnarray}
 
 \section{Operational Semantics}
+The rules for evaluating the operational semantics of \textsl{LangLang} expressions are slightly changed from classical natural deduction which uses propositions.
+For one thing, we do not attempt to involve propositional statements, rules are purely syntactic in nature.\\
+\emph{TODO: The presense of a token \texttt{t} could be interpreted something like a judgement that ``$\exists\texttt{t}$ in the current context''}\\
+
+In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
+The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{Which appears to be a (in my humble opinion, fascinating/edifying) prerequisite for Turing Completeness in this calculus.}.\\
+\emph{TODO: Elaborate on this...}
 
 \subsection{Ideal Semantics}
-
+\subsubsection{Rule 1. $ctx \vdash exs$ }
 \begin{equation}
-\infer{ctx \vdash \texttt{tok}}{ctx \vdash \texttt{tok}} \tag{1.1}
+\infer{ctx \vdash \texttt{t}}{ctx \vdash \texttt{t}} \tag{1.1}
 \end{equation}
 
 \begin{equation}
@@ -110,6 +118,34 @@ ex0 \rightarrow (ex1\ ex2) \quad\triangleq\quad (ex0 \rightarrow ex1 \quad ex0 \
 \end{equation}
 (This rule is applied implicitly in the implementation)
 
+\subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
+\begin{equation}
+\infer{\vdash \bot}{ctx \vdash \bot \rightarrow exs_1} \tag{2.1.1}
+\end{equation}
+
+\begin{equation}
+\infer{\vdash \top}{ctx \vdash \top \rightarrow exs_1} \tag{2.1.2}
+\end{equation}
+
+\begin{equation}
+\infer{ctx \vdash \lambda \rightarrow exs_1}{ctx \vdash \lambda \rightarrow exs_1} \tag{2.1.3}
+\end{equation}
+\begin{equation*}
+\infer{ctx \vdash \lambda \texttt{t}_0 \rightarrow exs_1}{ctx \vdash \lambda \texttt{t}_0 \rightarrow exs_1}
+\end{equation*}
+
+\begin{equation}
+\infer{ctx \vdash \left(\infer{\vdots}{ctx \vdash exs_0}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \tag{2.1.4}
+\end{equation}
+Rule 2.1.4 implicitly matches all of the following premises
+\begin{eqnarray*}
+ctx \vdash t_0 \rightarrow exs_1\\
+ctx \vdash (e_0 es_0) \rightarrow exs_1\\
+ctx \vdash (\lambda \rightarrow exs_{0_1}) \rightarrow exs_1\\
+ctx \vdash (\lambda \texttt{t}_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
+ctx \vdash (exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
+ctx \vdash exs_{0_0} . exs_{0_1}  \rightarrow exs_1
+\end{eqnarray*}
 
 
 \subsection{Implementation Semantics}
