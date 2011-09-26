@@ -7,10 +7,10 @@
 %\usepackage{gcl}
 %\usepackage{float}
 %\usepackage{wrapfig}
-%\usepackage{proof}
 \usepackage{amsmath}
 \usepackage{amssymb}
 %\usepackage{amsthm}
+\usepackage{proof}
 
 %%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%
 
@@ -80,7 +80,7 @@ An empty collection $()$ is denoted, in this document, with the symbol $\bot$\fo
 
 An arrow is an \emph{operational} construct which adds structure to the only other objects in the language, atoms.
 As collections are not objects, arrows may not connect to them directly, but instead connect only to their contents.
-For this reason, an arrow that connects to an empty collection does not exist.
+For this reason, an arrow that connects to an empty collection simply does not exist.
 \begin{eqnarray}
 \bot \rightarrow exs \quad\triangleq\quad \bot \\
 exs \rightarrow \bot \quad\triangleq\quad exs \\
@@ -89,7 +89,28 @@ ex0 \rightarrow (ex1\ ex2) \quad\triangleq\quad (ex0 \rightarrow ex1 \quad ex0 \
 \end{eqnarray}
 
 \section{Operational Semantics}
+
 \subsection{Ideal Semantics}
+
+\begin{equation}
+\infer{ctx \vdash \texttt{tok}}{ctx \vdash \texttt{tok}} \tag{1.1}
+\end{equation}
+
+\begin{equation}
+\infer{\vdash \top}{ctx \vdash \top} \tag{1.2}
+\end{equation}
+
+\begin{equation}
+\infer{\vdash \bot}{ctx \vdash \bot} \tag{1.a}
+\end{equation}
+(This rule is applied implicitly in the implementation)
+
+\begin{equation}
+\infer{ \left(\infer{\vdots}{ctx \vdash e}\quad\infer{\vdots}{ctx \vdash es}\right) }{ ctx \vdash (e\ es) } \tag{1.b}
+\end{equation}
+(This rule is applied implicitly in the implementation)
+
+
 
 \subsection{Implementation Semantics}
 
