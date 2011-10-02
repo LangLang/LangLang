@@ -7,10 +7,12 @@
 %\usepackage{gcl}
 %\usepackage{float}
 %\usepackage{wrapfig}
-\usepackage{amsmath}
+\usepackage{mathtools}
+%\usepackage{amsmath}
 \usepackage{amssymb}
 %\usepackage{amsthm}
 \usepackage{proof}
+
 
 %%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%
 
@@ -65,36 +67,36 @@ This is unlike the common notion of \emph{sets} in mathematics which includes th
 
 Syntactically, parentheses are used to group things together in \textsl{LangLang}, thus collections may be represented in code by enclosing their contents.
 However, as mentioned above, collections' boundaries are transient and disappear when nested.
-\begin{eqnarray}
+\[
 (ex0\ (ex1\ (ex2\ ex3))\ ex4) \quad\triangleq\quad (ex0\ ex1\ ex2\ ex3\ ex4)
-\end  {eqnarray}
+\]
 
 Furthermore, when a collection contains only a single expression, parentheses may be dropped entirely.
-\begin{eqnarray}
+\[
 (ex) \quad\triangleq\quad ex
-\end  {eqnarray}
+\]
 
 An empty collection $()$ is denoted, in this document, with the symbol $\bot$\footnote{Please take note of the conventions for writing \emph{bottom} mentioned in section \ref{sec:conventions}.}.
-\begin{eqnarray}
+\[
 () \quad\triangleq\quad \bot
-\end{eqnarray}
+\]
 
 An arrow is an \emph{operational} construct which adds structure to the only other objects in the language, atoms.
 As collections are not objects, arrows may not connect to them directly, but instead connect only to their contents.
 For this reason, an arrow that connects to an empty collection simply does not exist.
-\begin{eqnarray}
+\[
 \bot \rightarrow exs \quad\triangleq\quad \bot \\
 exs \rightarrow \bot \quad\triangleq\quad exs \\
 (ex0\ ex1) \rightarrow ex2 \quad\triangleq\quad (ex0 \rightarrow ex2 \quad ex1 \rightarrow ex2) \\
 ex0 \rightarrow (ex1\ ex2) \quad\triangleq\quad (ex0 \rightarrow ex1 \quad ex0 \rightarrow ex1)
-\end{eqnarray}
+\]
 
 \emph{TODO: Some invariants around contexts (the sequent) might come in handy for the operational semantics...}
 
 \section{Operational Semantics}
 The rules for evaluating the operational semantics of \textsl{LangLang} expressions are slightly changed from classical natural deduction which uses propositions.
 For one thing, we do not attempt to involve propositional statements, rules are purely syntactic in nature.\\
-\emph{TODO: The presense of a token \texttt{t} could be interpreted something like a judgement that ``$\exists\texttt{t}$ in the current context''}\\
+\emph{TODO: The presense of a token \texttt{t} could be interpreted something like a judgement that ``$\exists\mathtt{t}$ in the current context''}\\
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
 The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{Which appears to be a (in my humble opinion, fascinating/edifying) prerequisite for Turing Completeness in this calculus.}.\\
@@ -102,52 +104,74 @@ The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy man
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
-\begin{equation}
-\infer{ctx \vdash \texttt{t}}{ctx \vdash \texttt{t}} \tag{1.1}
-\end{equation}
+\[
+\infer{ctx \vdash \mathtt{t}}{ctx \vdash \mathtt{t}} \eqno{1.1}
+\]
 
-\begin{equation}
-\infer{\vdash \top}{ctx \vdash \top} \tag{1.2}
-\end{equation}
+\[
+\infer{\vdash \top}{ctx \vdash \top} \eqno{1.2}
+\]
 
-\begin{equation}
-\infer{\vdash \bot}{ctx \vdash \bot} \tag{1.a}
-\end{equation}
+\[
+\infer{\vdash \bot}{ctx \vdash \bot} \eqno{1.a}
+\]
 (This rule is applied implicitly in the implementation)
 
-\begin{equation}
-\infer{ \left(\infer{\vdots}{ctx \vdash e}\quad\infer{\vdots}{ctx \vdash es}\right) }{ ctx \vdash (e\ es) } \tag{1.b}
-\end{equation}
+\[
+\infer{ \left(\dfrac{ctx \vdash e}{\vdots}\quad\dfrac{ctx \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.b}
+\]
 (This rule is applied implicitly in the implementation)
 
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
-\begin{equation}
-\infer{\vdash \bot}{ctx \vdash \bot \rightarrow exs_1} \tag{2.1.1}
-\end{equation}
+\[
+\infer{\vdash \bot}{ctx \vdash \bot \rightarrow exs_1} \eqno{2.1.1}
+\]
 
-\begin{equation}
-\infer{\vdash \top}{ctx \vdash \top \rightarrow exs_1} \tag{2.1.2}
-\end{equation}
+\[
+\infer{\vdash \top}{ctx \vdash \top \rightarrow exs_1} \eqno{2.1.2}
+\]
 
-\begin{equation}
-\infer{ctx \vdash \lambda \rightarrow exs_1}{ctx \vdash \lambda \rightarrow exs_1} \tag{2.1.3}
-\end{equation}
+\[
+\infer{ctx \vdash \lambda \rightarrow exs_1}{ctx \vdash \lambda \rightarrow exs_1} \eqno{2.1.3}
+\]
 \begin{equation*}
-\infer{ctx \vdash \lambda \texttt{t}_0 \rightarrow exs_1}{ctx \vdash \lambda \texttt{t}_0 \rightarrow exs_1}
+\infer{ctx \vdash \lambda \mathtt{t}_0 \rightarrow exs_1}{ctx \vdash \lambda \mathtt{t}_0 \rightarrow exs_1}
 \end{equation*}
 
-\begin{equation}
-\infer{ctx \vdash \left(\infer{\vdots}{ctx \vdash exs_0}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \tag{2.1.4}
-\end{equation}
-Rule 2.1.4 implicitly matches all of the following premises
+\[
+\infer{ctx \vdash \left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4}
+\]
+Rule 2.1.4 implicitly matches all of the following premises:
 \begin{eqnarray*}
 ctx \vdash t_0 \rightarrow exs_1\\
 ctx \vdash (e_0 es_0) \rightarrow exs_1\\
 ctx \vdash (\lambda \rightarrow exs_{0_1}) \rightarrow exs_1\\
-ctx \vdash (\lambda \texttt{t}_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
+ctx \vdash (\lambda \mathtt{t}_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
 ctx \vdash (exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
 ctx \vdash exs_{0_0} . exs_{0_1}  \rightarrow exs_1
 \end{eqnarray*}
+
+\[
+\infer{ctx \vdash exs_1}{ctx \vdash exs_0 \rightarrow \bot} \eqno{2.2.1}
+\]
+
+\[
+\infer{ctx \vdash exs_0 \rightarrow \left(\dfrac{ctx \vdash exs_{1_0} . exs_{1_1}}{\vdots}\right)}{ctx \vdash exs_0 \rightarrow exs_{1_0} . exs_{1_1}} \eqno{2.2.?}
+\]
+\emph{TODO: check this}
+
+\[
+\infer{ctx \vdash exs_0 \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.2.?}
+\]
+
+Catch all remaining premises:
+\emph{TODO}\\\\
+
+
+\emph{ALSO, what about this? Is there some kind of rule for inner context to disappear? }
+\[
+ctx \vdash exs_0 \rightarrow (ctx_0 \vdash exs_1)
+\]
 
 
 \subsection{Implementation Semantics}
