@@ -93,6 +93,15 @@ ex0 \rightarrow (ex1\ ex2) \quad&\triangleq&\quad (ex0 \rightarrow ex1 \quad ex0
 
 \emph{TODO: Some invariants around contexts (the sequent) might come in handy for the operational semantics...}
 
+Every sub-expression of a larger expression also has the parent expression's context.
+However, context is created when an arrow is traversed, hence sub-expressions occuring after one or more arrows will have additional context.
+
+\begin{eqnarray*}
+ctx \vdash (ctx \vdash exs0) \rightarrow exs1 \quad&\triangleq&\quad ctx \vdash exs0 \rightarrow exs1
+\end{eqnarray*}
+
+\emph{TODO: more...?}
+
 \section{Operational Semantics}
 The rules for evaluating the operational semantics of \textsl{LangLang} expressions are slightly changed from classical natural deduction which uses propositions.
 For one thing, we do not attempt to involve propositional statements, rules are purely syntactic in nature.\\
@@ -139,9 +148,13 @@ The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy man
 \end{equation*}
 
 \[
-\infer{ctx \vdash \left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4}
+\infer{ctx \vdash exs_0 \rightarrow exs_1}{ctx \vdash \left(ctx \vdash exs_0\right) \rightarrow exs_1} \eqno{2.1.4}
 \]
-Rule 2.1.4 implicitly matches all of the following premises:
+
+\[
+\infer{ctx \vdash \left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.5}
+\]
+Rule 2.1.5 implicitly matches all of the following premises:
 \begin{eqnarray*}
 ctx \vdash t_0 \rightarrow exs_1\\
 ctx \vdash (e_0 es_0) \rightarrow exs_1\\
