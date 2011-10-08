@@ -84,12 +84,12 @@ An empty collection $()$ is denoted, in this document, with the symbol $\bot$\fo
 An arrow is an \emph{operational} construct which adds structure to the only other objects in the language, atoms.
 As collections are not objects, arrows may not connect to them directly, but instead connect only to their contents.
 For this reason, an arrow that connects to an empty collection simply does not exist.
-\[
-\bot \rightarrow exs \quad\triangleq\quad \bot \\
-exs \rightarrow \bot \quad\triangleq\quad exs \\
-(ex0\ ex1) \rightarrow ex2 \quad\triangleq\quad (ex0 \rightarrow ex2 \quad ex1 \rightarrow ex2) \\
-ex0 \rightarrow (ex1\ ex2) \quad\triangleq\quad (ex0 \rightarrow ex1 \quad ex0 \rightarrow ex1)
-\]
+\begin{eqnarray*}
+\bot \rightarrow exs \quad&\triangleq&\quad \bot \\
+exs \rightarrow \bot \quad&\triangleq&\quad exs \\
+(ex0\ ex1) \rightarrow ex2 \quad&\triangleq&\quad (ex0 \rightarrow ex2 \quad ex1 \rightarrow ex2) \\
+ex0 \rightarrow (ex1\ ex2) \quad&\triangleq&\quad (ex0 \rightarrow ex1 \quad ex0 \rightarrow ex1)
+\end{eqnarray*}
 
 \emph{TODO: Some invariants around contexts (the sequent) might come in handy for the operational semantics...}
 
@@ -99,7 +99,7 @@ For one thing, we do not attempt to involve propositional statements, rules are 
 \emph{TODO: The presense of a token \texttt{t} could be interpreted something like a judgement that ``$\exists\mathtt{t}$ in the current context''}\\
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
-The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{Which appears to be a (in my humble opinion, fascinating/edifying) prerequisite for Turing Completeness in this calculus.}.\\
+The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.\\
 \emph{TODO: Elaborate on this...}
 
 \subsection{Ideal Semantics}
