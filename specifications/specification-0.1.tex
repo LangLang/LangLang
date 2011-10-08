@@ -91,16 +91,17 @@ exs \rightarrow \bot \quad&\triangleq&\quad exs \\
 ex0 \rightarrow (ex1\ ex2) \quad&\triangleq&\quad (ex0 \rightarrow ex1 \quad ex0 \rightarrow ex1)
 \end{eqnarray*}
 
-\emph{TODO: Some invariants around contexts (the sequent) might come in handy for the operational semantics...}
-
 Every sub-expression of a larger expression also has the parent expression's context.
 However, context is created when an arrow is traversed, hence sub-expressions occuring after one or more arrows will have additional context.
 
 \begin{eqnarray*}
-ctx \vdash (ctx \vdash exs0) \rightarrow exs1 \quad&\triangleq&\quad ctx \vdash exs0 \rightarrow exs1
+ctx \vdash exs_0 \rightarrow exs_1 \quad&\triangleq&\quad ctx \vdash (ctx \vdash exs_0) \rightarrow exs_1 \\
+ctx \vdash exs_0 \rightarrow exs_1 \quad&\triangleq&\quad ctx \vdash exs_0 \rightarrow (ctx,exs_0,exs_0 \rightarrow exs_1 \vdash exs_1)
 \end{eqnarray*}
 
-\emph{TODO: more...?}
+\emph{TODO: Check this second rule for correctness. 
+Should $exs_0$ and $exs_0 \rightarrow exs_1$ be evaluated before they can be added to the context of $exs_1$.
+This is rather hard to intuit and needs some thought.}
 
 \section{Operational Semantics}
 The rules for evaluating the operational semantics of \textsl{LangLang} expressions are slightly changed from classical natural deduction which uses propositions.
