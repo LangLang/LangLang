@@ -192,6 +192,12 @@ Perhaps rule 2.1.4 should be something like: }
 \infer{ctx,exs_0 \rightarrow exs_1 \vdash \left( \left(\dfrac{ctx \vdash (\lambda \rightarrow exs_0).\top}{\vdots}\right) \rightarrow \lambda \right).\top \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4 (alt-alt)}
 \]
 
+Or perhaps
+
+\[
+\infer{\left(\dfrac{ctx \vdash ((exs_0 \rightarrow exs_1) \rightarrow \lambda).\top}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4 (alt-alt-alt)}
+\]
+
 
 \[
 \infer{ctx \vdash exs_1}{ctx \vdash exs_0 \rightarrow \bot} \eqno{2.2.1}
