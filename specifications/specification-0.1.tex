@@ -68,7 +68,7 @@ This is unlike the common notion of \emph{sets} in mathematics which includes th
 Syntactically, parentheses are used to group things together in \textsl{LangLang}, thus collections may be represented in code by enclosing their contents.
 However, as mentioned above, collections' boundaries are transient and disappear when nested.
 \[
-(ex0\ (ex1\ (ex2\ ex3))\ ex4) \quad\triangleq\quad (ex0\ ex1\ ex2\ ex3\ ex4)
+(ex_0\ (ex_1\ (ex_2\ ex_3))\ ex_4) \quad\triangleq\quad (ex_0\ ex_1\ ex_2\ ex_3\ ex_4)
 \]
 
 Furthermore, when a collection contains only a single expression, parentheses may be dropped entirely.
@@ -87,8 +87,8 @@ For this reason, an arrow that connects to an empty collection simply does not e
 \begin{eqnarray*}
 \bot \rightarrow exs \quad&\triangleq&\quad \bot \\
 exs \rightarrow \bot \quad&\triangleq&\quad exs \\
-(ex0\ ex1) \rightarrow ex2 \quad&\triangleq&\quad (ex0 \rightarrow ex2 \quad ex1 \rightarrow ex2) \\
-ex0 \rightarrow (ex1\ ex2) \quad&\triangleq&\quad (ex0 \rightarrow ex1 \quad ex0 \rightarrow ex1)
+(ex_0\ ex_1) \rightarrow ex_2 \quad&\triangleq&\quad (ex_0 \rightarrow ex_2 \quad ex_1 \rightarrow ex_2) \\
+ex_0 \rightarrow (ex_1\ ex_2) \quad&\triangleq&\quad (ex_0 \rightarrow ex_1 \quad ex_0 \rightarrow ex_1)
 \end{eqnarray*}
 
 Every sub-expression of a larger expression also has the parent expression's context.
@@ -149,21 +149,22 @@ The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy man
 \end{equation*}
 
 \[
-\infer{ctx \vdash exs_0 \rightarrow exs_1}{ctx \vdash \left(ctx \vdash exs_0\right) \rightarrow exs_1} \eqno{2.1.4}
+\infer{ctx \vdash \left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4}
 \]
-
-\[
-\infer{ctx \vdash \left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.5}
-\]
-Rule 2.1.5 implicitly matches all of the following premises:
+Rule 2.1.4 implicitly matches all of the following premises:
 \begin{eqnarray*}
 ctx \vdash t_0 \rightarrow exs_1\\
-ctx \vdash (e_0 es_0) \rightarrow exs_1\\
+ctx \vdash (e_0\ es_0) \rightarrow exs_1\\
 ctx \vdash (\lambda \rightarrow exs_{0_1}) \rightarrow exs_1\\
 ctx \vdash (\lambda \mathtt{t}_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
 ctx \vdash (exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
 ctx \vdash exs_{0_0} . exs_{0_1}  \rightarrow exs_1
 \end{eqnarray*}
+
+\[
+\infer{ctx \vdash exs_0 \rightarrow exs_1}{ctx \vdash \left(ctx \vdash exs_0\right) \rightarrow exs_1} \eqno{2.1.a}
+\]
+(This rule is applied implicitly in the implementation)
 
 \[
 \infer{ctx \vdash exs_1}{ctx \vdash exs_0 \rightarrow \bot} \eqno{2.2.1}
