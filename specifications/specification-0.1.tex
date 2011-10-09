@@ -166,6 +166,27 @@ Recall from the introduction that the sequent always moves inward.
 \infer{(ctx \vdash \lambda \mathtt{t}_0) \rightarrow exs_1}{(ctx \vdash \lambda \mathtt{t}_0) \rightarrow exs_1}
 \end{equation*}
 
+\[
+\infer{(ctx,exs_0 \rightarrow exs_1 \vdash \lambda) \rightarrow exs_1}{(ctx \vdash exs_0) \rightarrow exs_1} \eqno{2.5}
+\]
+\emph{TODO: NOT QUITE SURE ABOUT THIS YET... Something like it is needed to solve $(((ctx \vdash exs_{0_0}) \rightarrow \dots ) \rightarrow \dots ) \rightarrow exs_{0_n}).exs_1$.}
+\emph{OR PERHAPS ALTERNATIVELY:}
+\[
+\infer{(ctx,exs_{0_0} \rightarrow exs_{0_1},(exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1 \vdash \lambda) \rightarrow exs_1}{((ctx \vdash exs_{0_0}) \rightarrow exs_{0_1}) \rightarrow exs_1} \eqno{2.5-alt}
+\]
+
+\emph{OR ALTERNATIVELY:}
+
+\[
+\infer{(ctx,exs_0 \rightarrow exs_1 \vdash \lambda) \rightarrow exs_1}{(ctx \vdash exs_0) \rightarrow exs_1} \eqno{2.5.1}
+\]
+
+\[
+\infer{(ctx,??? \vdash \lambda) \rightarrow exs_1}{((ctx \vdash \lambda) \rightarrow exs_{0_1}) \rightarrow exs_1} \eqno{2.5.2}
+\]
+
+\emph{TODO: Problem with all of the above is it can't be properly evaluated so that $(exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_{1_0}$ is in the context (recursively at least, even with 2.5-alt).}
+
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
 
 \[
