@@ -120,7 +120,8 @@ For one thing, we do not attempt to involve propositional statements, rules are 
 \emph{TODO: The presense of a token \texttt{t} could be interpreted something like a judgement that ``$\exists\mathtt{t}$ in the current context''}\\
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
-The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.\\
+The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
+In a sense, $\vdash$ can be read as ``to be evaluated''.\\
 \emph{TODO: Elaborate on this...}
 
 \subsection{Ideal Semantics}
@@ -191,7 +192,7 @@ ctx \vdash exs_{0_0} . exs_{0_1}  \rightarrow exs_1
 \]
 
 \[
-\infer{ctx \vdash exs_0 \rightarrow \left(\dfrac{ctx \vdash exs_{1_0} . exs_{1_1}}{\vdots}\right)}{ctx \vdash exs_0 \rightarrow exs_{1_0} . exs_{1_1}} \eqno{2.2.?}
+\infer{ctx \vdash exs_0 \rightarrow \left(\dfrac{ctx \vdash exs_{1_0}.exs_{1_1}}{\vdots}\right)}{ctx \vdash exs_0 \rightarrow exs_{1_0}.exs_{1_1}} \eqno{2.2.?}
 \]
 \emph{TODO: check this... Ideally we wouldn't want to evaluate the right hand side before it is queried.
 Furthermore, see rule 2.1.4 - the context is dependent on evaluating $ctx \vdash exs_0$, so it complicates things if both these rules must be evaluated.
@@ -211,6 +212,53 @@ Catch all remaining premises:
 ctx \vdash exs_0 \rightarrow (ctx_0 \vdash exs_1)
 \]
 
+
+\subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
+
+\[
+\infer{\vdash \bot}{ctx \vdash \bot.exs_1} \eqno{3.1.1}
+\]
+
+\[
+\infer{\top \vdash \left(\dfrac{ctx \vdash exs}{\vdots}\right)}{ctx \vdash \top.exs_1} \eqno{3.1.2}
+\]
+
+\[
+\infer{\vdash \bot}{\vdash \mathtt{t}_0.exs_1} \eqno{3.1.3.1}
+\]
+
+\[
+\infer{\vdash ((\lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)).exs_1}{c \vdash \mathtt{t}_0.exs_1} \eqno{3.1.3.2}
+\]
+
+\[
+\infer{\left(\dfrac{cs \vdash ((\lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)).exs_1}{\vdots}\quad\dfrac{cs \vdash \mathtt{t}_0.exs_1}{\vdots}\right)}
+{cs,c \vdash \mathtt{t}_0.exs_1} \eqno{3.1.3.3}
+\]
+
+\[
+\infer{ctx, \mathtt{t}_{0_0} \rightarrow exs_{0_1}\vdash exs_{0_1}}{ctx \vdash (\mathtt{t}_{0_0} \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.1}
+\]
+\[
+\infer{ctx \vdash exs_{0_1}}{ctx \vdash (\lambda \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.2}
+\]
+\[
+\infer{ctx \vdash \left(\left(\lambda \rightarrow \dfrac{ctx \vdash exs_{0_{0_0}} \rightarrow exs_{0_{0_1}}}{\vdots}\right).\top \rightarrow exs_{0_1}\right).\top}
+{ctx \vdash ((exs_{0_{0_0}} \rightarrow exs_{0_{0_1}}) \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.3}
+\]
+\emph{TODO: This is still not correct... need some way to evaluate the first (nested) arrow only once, without going into an infinite loop.}
+
+\[
+\infer{\vdots}{ctx \vdash (\lambda \rightarrow exs_{0_1}).exs_1} \eqno{3.1.4.2}
+\]
+\emph{TODO: Still busy with this one}
+
+\[
+\infer{\left(\dfrac{ctx,(e_{0_0}\ e_{0_1}\ \dots\ e_{0_n}) \vdash e_{0_0}.exs_1}{\vdots}\ \dots\ \dfrac{ctx,(e_{0_0}\ e_{0_1}\ \dots\ e_{0_n}) \vdash e_{0_n}.exs_1}{\vdots}\right)}
+{ctx \vdash (e_{0_0}\ e_{0_1}\ \dots\ e_{0_n}).exs_1} \eqno{3.1.5}
+\]
+
+\emph{TODO: Check rule 3.1.5, there was still some confusion here about evaluation and possible memoization - see the code (it's 3.1.4 in the code at the moment)}
 
 \subsection{Implementation Semantics}
 
