@@ -186,6 +186,7 @@ ctx \vdash exs_{0_0} . exs_{0_1}  \rightarrow exs_1
 \infer{ctx \vdash exs_0 \rightarrow exs_1}{\left(ctx \vdash exs_0\right) \rightarrow exs_1} \eqno{2.1.a (alt)}
 \]
 (This rule is applied implicitly in the implementation)
+\emph{TODO: but this will still lead to an infinite loop... need to think about it}
 
 \[
 \infer{ctx \vdash exs_1}{ctx \vdash exs_0 \rightarrow \bot} \eqno{2.2.1}
