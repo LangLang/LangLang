@@ -108,7 +108,10 @@ This is rather hard to intuit and needs some thought.}
 \begin{eqnarray*}
 ctx \vdash exs_0 \rightarrow exs_1 \quad&\triangleq&\quad (ctx \vdash exs_0) \rightarrow exs_1 \\
 ctx \vdash (exs_0 \rightarrow exs_1) \rightarrow exs_2 \quad&\triangleq&\quad (ctx \vdash exs_0 \rightarrow exs_1) \rightarrow exs_2 \\
-                                                            &\triangleq&\quad ((ctx \vdash exs_0) \rightarrow exs_1) \rightarrow exs_2
+                                                            &\triangleq&\quad ((ctx \vdash exs_0) \rightarrow exs_1) \rightarrow exs_2 \\
+ctx \vdash exs_0.exs_1 \quad&\triangleq&\quad (ctx \vdash exs_0).exs_1 \\
+ctx \vdash exs_0.exs_1.exs_2 \quad&\triangleq&\quad (ctx \vdash exs_0.exs_1).exs_2 \\
+                                  &\triangleq&\quad (ctx \vdash exs_0).exs_1.exs_2
 \end{eqnarray*}
 
 \section{Operational Semantics}
