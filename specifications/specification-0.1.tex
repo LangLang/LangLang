@@ -121,8 +121,7 @@ For one thing, we do not attempt to involve propositional statements, rules are 
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
 The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
-In a sense, $\vdash$ can be read as ``to be evaluated''.\\
-\emph{TODO: Elaborate on this...}
+The way that the sequent works in the operational semantics is to always move inward as can be seen in rules 1.b, 2.1, etc...\footnote{See also the denotational invariants for contexts, documented earlier.}.
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
@@ -142,93 +141,40 @@ In a sense, $\vdash$ can be read as ``to be evaluated''.\\
 \[
 \infer{ \left(\dfrac{ctx \vdash e}{\vdots}\quad\dfrac{ctx \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.b}
 \]
+Recall from the introduction that the sequent always moves inward.\\
 (This rule is applied implicitly in the implementation)
 
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
+
 \[
-\infer{\vdash \bot}{ctx \vdash \bot \rightarrow exs_1} \eqno{2.1.1}
+\infer{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1}
+\]
+Recall from the introduction that the sequent always moves inward.
+
+\[
+\infer{\vdash \bot}{(\vdash \bot) \rightarrow exs_1} \eqno{2.2}
 \]
 
 \[
-\infer{\vdash \top}{ctx \vdash \top \rightarrow exs_1} \eqno{2.1.2}
+\infer{\vdash \top}{(\vdash \top) \rightarrow exs_1} \eqno{2.3}
 \]
 
 \[
-\infer{ctx \vdash \lambda \rightarrow exs_1}{ctx \vdash \lambda \rightarrow exs_1} \eqno{2.1.3}
+\infer{(ctx \vdash \lambda) \rightarrow exs_1}{(ctx \vdash \lambda) \rightarrow exs_1} \eqno{2.4}
 \]
 \begin{equation*}
-\infer{ctx \vdash \lambda \mathtt{t}_0 \rightarrow exs_1}{ctx \vdash \lambda \mathtt{t}_0 \rightarrow exs_1}
+\infer{(ctx \vdash \lambda \mathtt{t}_0) \rightarrow exs_1}{(ctx \vdash \lambda \mathtt{t}_0) \rightarrow exs_1}
 \end{equation*}
-
-\[
-\infer{ctx \vdash \left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4}
-\]
-Rule 2.1.4 implicitly matches all of the following premises:
-\begin{eqnarray*}
-ctx \vdash t_0 \rightarrow exs_1\\
-ctx \vdash (e_0\ es_0) \rightarrow exs_1\\
-ctx \vdash (\lambda \rightarrow exs_{0_1}) \rightarrow exs_1\\
-ctx \vdash (\lambda \mathtt{t}_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
-ctx \vdash (exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1\\
-ctx \vdash exs_{0_0} . exs_{0_1}  \rightarrow exs_1
-\end{eqnarray*}
-
-\[
-\infer{ctx \vdash exs_0 \rightarrow exs_1}{ctx \vdash \left(ctx \vdash exs_0\right) \rightarrow exs_1} \eqno{2.1.a}
-\]
-\emph{TODO: But perhaps the last two rules should look like this... (see the invariants)}
-\[
-\infer{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4 (alt)}
-\]
-(I.e. The context may change in this rule due to evaluating $ctx \vdash exs_1$)
-
-\[
-\infer{ctx \vdash exs_0 \rightarrow exs_1}{\left(ctx \vdash exs_0\right) \rightarrow exs_1} \eqno{2.1.a (alt)}
-\]
-(This rule is applied implicitly in the implementation)
-\emph{TODO: but this will still lead to an infinite loop... need to think about it.
-Perhaps rule 2.1.4 should be something like: }
-\[
-\infer{ctx,exs_0 \rightarrow exs_1 \vdash \left( \left(\dfrac{ctx \vdash (\lambda \rightarrow exs_0).\top}{\vdots}\right) \rightarrow \lambda \right).\top \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4 (alt-alt)}
-\]
-
-Or perhaps
-
-\[
-\infer{\left(\dfrac{ctx \vdash ((exs_0 \rightarrow exs_1) \rightarrow \lambda).\top}{\vdots}\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.4 (alt-alt-alt)}
-\]
-
-
-\[
-\infer{ctx \vdash exs_1}{ctx \vdash exs_0 \rightarrow \bot} \eqno{2.2.1}
-\]
-
-\[
-\infer{ctx \vdash exs_0 \rightarrow \left(\dfrac{ctx \vdash exs_{1_0}.exs_{1_1}}{\vdots}\right)}{ctx \vdash exs_0 \rightarrow exs_{1_0}.exs_{1_1}} \eqno{2.2.?}
-\]
-\emph{TODO: check this... Ideally we wouldn't want to evaluate the right hand side before it is queried.
-Furthermore, see rule 2.1.4 - the context is dependent on evaluating $ctx \vdash exs_0$, so it complicates things if both these rules must be evaluated.
-Is it really necessary?
-It would be helpful if $ctx \vdash$ could be written only once in sequence of arrows (collections may have multiple contexts though, see rule 1.b).}
-
-\[
-\infer{ctx \vdash exs_0 \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.2.?}
-\]
-
-Catch all remaining premises:
-\emph{TODO}\\\\
-
-
-\emph{ALSO, what about this? Is there some kind of rule for inner context to disappear? }
-\[
-ctx \vdash exs_0 \rightarrow (ctx_0 \vdash exs_1)
-\]
-
 
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
 
 \[
-\infer{\vdash \bot}{ctx \vdash \bot.exs_1} \eqno{3.1.1}
+\infer{(ctx \vdash exs_0).exs_1}{ctx \vdash exs_0.exs_1} \eqno{3.1.1}
+\]
+Recall from the introduction that the sequent always moves inward.
+
+\[
+\infer{\vdash \bot}{\vdash \bot.exs_1} \eqno{3.1.2}
 \]
 
 \[
