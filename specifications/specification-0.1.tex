@@ -171,14 +171,14 @@ Recall from the introduction that the sequent always moves inward.
 \]
 
 Note that there will be some implicit special case handling in an implementation for collections that contain $\bot$.
-This is not explicitly handled by the operational semantics as we're 
-Recall from the denotational semantics that
+This is not explicitly handled by the operational semantics as we're not concerned with the physical storage of collections.
+Using the denotational semantics note the following two implicit rules employed by 2.6.
 \[
-(ctx_0 \vdash ex_0\ ctx_1 \vdash ex_1\ \vdash \bot \ ctx_3 \vdash ex_3) \triangleq (ctx_0 \vdash ex_0\ ctx_1 \vdash ex_1\ ctx_3 \vdash ex_3)
+\infer{ctx_0 \vdash ex_0 \quad ctx_1 \vdash ex_1 \quad ctx_3 \vdash ex_3}
+{ctx_0 \vdash ex_0 \quad ctx_1 \vdash ex_1 \quad \vdash \bot \quad ctx_3 \vdash ex_3} \eqno{2.6.a}
 \]
-and
 \[
-(\vdash \bot\ \vdash \bot) \triangleq\ \vdash \bot
+\infer{\vdash \bot}{\vdash \bot \quad \vdash \bot} \eqno{2.6.b}
 \]
 
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
