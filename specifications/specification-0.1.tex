@@ -110,7 +110,7 @@ For one thing, we do not attempt to involve propositional statements, rules are 
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
 The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
-The way that the sequent works in the operational semantics is to always move inward to evaluate sub-expressions as can be seen in rules 1.b, 2.2, etc... but after the evaluation is completed, sub-expressions are moved over to the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
+The way that the sequent works in the operational semantics is to always move inward to evaluate sub-expressions as can be seen in rules 1.4, 2.2, etc... but after the evaluation is completed, sub-expressions are moved over to the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
