@@ -110,7 +110,7 @@ For one thing, we do not attempt to involve propositional statements, rules are 
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
 The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
-The way that the sequent works in the operational semantics is to always move inward as can be seen in rules 1.b, 2.1, etc... except when expression are moved over to the context (and replaced by a newly generated symbol $\lambda$) as in rule 2.5.\footnote{See also the denotational invariants for contexts, documented earlier.}.
+The way that the sequent works in the operational semantics is to always move inward to evaluate sub-expressions as can be seen in rules 1.b, 2.2, etc... but after the evaluation is completed, sub-expressions are moved over to the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
@@ -138,50 +138,36 @@ Recall from the introduction that the sequent always moves inward.\\
 \[
 \infer{ctx \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \rightarrow exs_0) \rightarrow exs_1} \eqno{2.1.1}
 \]
-\emph{TODO: From the invariant that the $\lambda$ is never captured in the context. (note however, that $\lambda$ is supposed to be just another token... just a unique one that is regenerated each time? - so does this make sense?)}
-\emph{Answer: Well, yes, it is consistent with the semantics, however it does mean that the evaluator itself must have the ability to generate new tokens automatically.
-This is not just a side-effect, it appears to be fundamental requirement of this calculus.}
+
+Note that the $\lambda$ is never captured inside the context as it is a pseudo-token\footnote{Conceptually $\lambda$ behaves like any regular symbol, thus a new unique symbol could be generated and placed in the context.
+Following this conceptual framework, the evaluator would have to have the ability to assign a new unique symbols for each new instance of $\lambda$ it generates automatically - almost a little bit like a turing machine writing to its infinite length tape except that no cell can be destructively updated.}.
 
 \[
-\infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{\vdots}}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.2}
+\infer{ctx, \mathtt{t}_0 \rightarrow exs_0 \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \mathtt{t}_0 \rightarrow exs_1) \rightarrow exs_1}  \eqno{2.1.2}
+\]
+
+This form of the lambda expression is just syntactic sugar, but it is very helpful in some cases.
+
+\[
+\infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{\vdots}}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.2}
 \]
 Recall from the introduction that the sequent always moves inward.
 
 \[
-\infer{\vdash \bot}{(\vdash \bot) \rightarrow exs_1} \eqno{2.2}
+\infer{\vdash \bot}{(\vdash \bot) \rightarrow exs_1} \eqno{2.3}
 \]
 
 \[
-\infer{\vdash \top}{(\vdash \top) \rightarrow exs_1} \eqno{2.3}
+\infer{\vdash \top}{(\vdash \top) \rightarrow exs_1} \eqno{2.4}
 \]
 
 \[
-\infer{(ctx \vdash \lambda) \rightarrow exs_1}{(ctx \vdash \lambda) \rightarrow exs_1} \eqno{2.4}
-\]
-\begin{equation*}
-\infer{(ctx \vdash \lambda \mathtt{t}_0) \rightarrow exs_1}{(ctx \vdash \lambda \mathtt{t}_0) \rightarrow exs_1}
-\end{equation*}
-
-\[
-\infer{ctx,exs_0,exs_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash exs_0) \rightarrow exs_1} \eqno{2.5}
-\]
-\emph{TODO: NOT QUITE SURE ABOUT THIS YET... Something like it is needed to solve $(((ctx \vdash exs_{0_0}) \rightarrow \dots ) \rightarrow \dots ) \rightarrow exs_{0_n}).exs_1$.}
-\emph{OR PERHAPS ALTERNATIVELY:}
-\[
-\infer{(ctx,exs_{0_0} \rightarrow exs_{0_1},(exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_1 \vdash \lambda) \rightarrow exs_1}{((ctx \vdash exs_{0_0}) \rightarrow exs_{0_1}) \rightarrow exs_1} \eqno{2.5-alt}
-\]
-
-\emph{OR ALTERNATIVELY:}
-
-\[
-\infer{(ctx,exs_0 \rightarrow exs_1 \vdash \lambda) \rightarrow exs_1}{(ctx \vdash exs_0) \rightarrow exs_1} \eqno{2.5.1}
+\infer{ctx,\mathtt{t}_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash \mathtt{t}_0) \rightarrow exs_1} \eqno{2.5}
 \]
 
 \[
-\infer{(cs,c,c \rightarrow exs_{0_1} \vdash \lambda) \rightarrow exs_1}{((cs,c \vdash \lambda) \rightarrow exs_{0_1}) \rightarrow exs_1} \eqno{2.5.2}
+\infer{ctx,exs_0,exs_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash exs_0) \rightarrow exs_1} \eqno{2.6}
 \]
-
-\emph{TODO: Problem with all of the above is it can't be properly evaluated so that $(exs_{0_0} \rightarrow exs_{0_1}) \rightarrow exs_{1_0}$ is in the context (recursively at least, even with 2.5-alt).}
 
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
 
