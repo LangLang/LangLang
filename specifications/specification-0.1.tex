@@ -139,6 +139,8 @@ Recall from the introduction that the sequent always moves inward.\\
 \infer{ctx \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \rightarrow exs_0) \rightarrow exs_1} \eqno{2.1.1}
 \]
 \emph{TODO: From the invariant that the $\lambda$ is never captured in the context. (note however, that $\lambda$ is supposed to be just another token... just a unique one that is regenerated each time? - so does this make sense?)}
+\emph{Answer: Well, yes, it is consistent with the semantics, however it does mean that the evaluator itself must have the ability to generate new tokens automatically.
+This is not just a side-effect, it appears to be fundamental requirement of this calculus.}
 
 \[
 \infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{\vdots}}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.1.2}
