@@ -128,7 +128,7 @@ The way that the sequent works in the operational semantics is to always move in
 (This rule is applied implicitly in the implementation)
 
 \[
-\infer{ \left(\dfrac{ctx \vdash e}{\vdots}\quad\dfrac{ctx \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.b}
+\infer{ \left(\dfrac{ctx,es \vdash e}{\vdots}\quad\dfrac{ctx,e \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.b}
 \]
 Recall from the introduction that the sequent always moves inward.\\
 (This rule is applied implicitly in the implementation)
