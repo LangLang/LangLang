@@ -110,7 +110,7 @@ For one thing, we do not attempt to involve propositional statements, rules are 
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
 The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
-The way that the sequent works in the operational semantics is to always move inward as can be seen in rules 1.b, 2.1, etc...\footnote{See also the denotational invariants for contexts, documented earlier.}.
+The way that the sequent works in the operational semantics is to always move inward as can be seen in rules 1.b, 2.1, etc... except when expression are moved over to the context (and replaced by a newly generated symbol $\lambda$) as in rule 2.5.\footnote{See also the denotational invariants for contexts, documented earlier.}.
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
@@ -163,7 +163,7 @@ Recall from the introduction that the sequent always moves inward.
 \end{equation*}
 
 \[
-\infer{(ctx,exs_0 \rightarrow exs_1 \vdash \lambda) \rightarrow exs_1}{(ctx \vdash exs_0) \rightarrow exs_1} \eqno{2.5}
+\infer{ctx,exs_0,exs_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash exs_0) \rightarrow exs_1} \eqno{2.5}
 \]
 \emph{TODO: NOT QUITE SURE ABOUT THIS YET... Something like it is needed to solve $(((ctx \vdash exs_{0_0}) \rightarrow \dots ) \rightarrow \dots ) \rightarrow exs_{0_n}).exs_1$.}
 \emph{OR PERHAPS ALTERNATIVELY:}
