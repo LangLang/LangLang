@@ -93,6 +93,23 @@ exs \rightarrow \bot \quad&\triangleq&\quad exs \\
 ex_0 \rightarrow (ex_1\ ex_2) \quad&\triangleq&\quad (ex_0 \rightarrow ex_1 \quad ex_0 \rightarrow ex_1)
 \end{eqnarray*}
 
+Similarly for $\top$, this refers to every possible expression in the universe.
+Thus, putting $\top$ into the same environment as some other expression renders the latter expression redundant.
+
+\begin{eqnarray*}
+(\top\ \top) \quad&\triangleq&\quad \top \\
+(ex_0\ ex_1\ \top\ ex_3) \quad&\triangleq&\quad \top
+\end{eqnarray*}
+
+It is perhaps not immediately obvious at this point, because context has not been discussed yet, but any expression that has $\top$ in its domains is equivalent to $\top$.
+This is because once $\top$ will be absorbed into the context of its codomain -- this will become more clear taking into account the rules that deal with context.
+
+\begin{eqnarray*}
+\top \rightarrow exs \quad&\triangleq&\quad \top \\
+((\top \rightarrow exs_0) \rightarrow exs_1) \rightarrow exs_2 \quad&\triangleq&\quad \top \\
+(exs_0 \rightarrow \top) \rightarrow exs_1 \quad&\not\triangleq&\quad \top
+\end{eqnarray*}
+
 Every sub-expression of a larger expression also has the parent expression's context.
 However, context is created when an arrow is traversed, hence sub-expressions occuring after one or more arrows will have additional context (once the arrow has been evaluated).
 
@@ -140,7 +157,7 @@ Recall from the introduction that the sequent always moves inward.
 \]
 
 Note that the $\lambda$ is never captured inside the context as it is a pseudo-token\footnote{Conceptually $\lambda$ behaves like any regular symbol, thus a new unique symbol could be generated and placed in the context.
-Following this conceptual framework, the evaluator would have to have the ability to assign a new unique symbols for each new instance of $\lambda$ it generates automatically - almost a little bit like a turing machine writing to its infinite length tape except that no cell can be destructively updated.}.
+Following this conceptual framework, the evaluator would have to have the ability to assign a new unique symbols for each new instance of $\lambda$ it generates automatically -- almost a little bit like a turing machine writing to its infinite length tape except that no cell can be destructively updated.}.
 
 \[
 \infer{ctx, \mathtt{t}_0 \rightarrow exs_0 \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \mathtt{t}_0 \rightarrow exs_1) \rightarrow exs_1}  \eqno{2.1.2}
