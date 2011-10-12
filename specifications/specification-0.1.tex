@@ -123,15 +123,13 @@ The way that the sequent works in the operational semantics is to always move in
 \]
 
 \[
-\infer{\vdash \bot}{ctx \vdash \bot} \eqno{1.a}
+\infer{\vdash \bot}{ctx \vdash \bot} \eqno{1.3}
 \]
-(This rule is applied implicitly in the implementation)
 
 \[
-\infer{ \left(\dfrac{ctx,es \vdash e}{\vdots}\quad\dfrac{ctx,e \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.b}
+\infer{ \left(\dfrac{ctx,es \vdash e}{\vdots}\quad\dfrac{ctx,e \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.4}
 \]
-Recall from the introduction that the sequent always moves inward.\\
-(This rule is applied implicitly in the implementation)
+Recall from the introduction that the sequent always moves inward.
 
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
 
