@@ -149,6 +149,10 @@ The way that the sequent works in the operational semantics is to always move in
 \infer{ \left(\dfrac{ctx,es \vdash e}{\vdots}\quad\dfrac{ctx,e \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.4}
 \]
 Recall from the introduction that the sequent always moves inward.
+\emph{TODO: Actually, this rule is far more complicated.
+It should take into account that every expression needs to be evaluated before it is added to the context.
+Therefore, every expression in the collection depends on every other expression, so some kind of recursive rule is needed here.
+The implementation will most likely order rules according to their dependencies, but also handling loops etc.}
 
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
 
