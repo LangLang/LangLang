@@ -127,7 +127,7 @@ The rules for evaluating the operational semantics of \textsl{LangLang} expressi
 In particular, the way that the sequent $\vdash$ is interpreted is a little different from the usual interpretation although it realizes many of the same objectives in spirit.
 The meaning of the sequent in this calculus is the provision of a operational `\emph{context}' in which to evaluate expressions\footnote{Although this sounds similar to the usual convention, the sequent is involved in the evaluation in a far more direct manner.}.
 It is also what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
-The way that the sequent works in the operational semantics is to move inward when evaluating sub-expressions as can be seen in rules 1.4, 2.2, etc... but after the evaluation is completed, sub-expressions are moved over into the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
+The way that the sequent works in the operational semantics is to move inward when evaluating sub-expressions as can be seen in rules 1.4, 2.2, 3.1 etc... but after the evaluation is completed, sub-expressions are moved over into the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
@@ -149,7 +149,7 @@ The way that the sequent works in the operational semantics is to move inward wh
 Recall from the introduction that the sequent always moves inward.\\
 
 While this rule is sufficient in the calculus, \textsl{LangLang} extends it to also use the current collection as part of the context.
-This allows LangLang to use a similar scoping mechanism to conventional programming languages where declarations inside the same scope are dependent on each other.
+This allows \textsl{LangLang} to use a similar scoping mechanism to conventional programming languages where declarations inside the same scope are interdependent.
 The implementation of this mechanism is far more subtle and complex than the original rule, it is difficult to define inside the operational semantics, however a reasonable approximation can be written as:
 
 \[
@@ -157,7 +157,7 @@ The implementation of this mechanism is far more subtle and complex than the ori
 \]
 
 Note that in the actual implementation every expression needs to be evaluated before it is added to the context.
-Furthermore, since expressions inside the collection may depend on other expressions in the collection, the order in which expressions are evaluated may vary.
+Furthermore, since expressions inside the collection may depend on other expressions in the collection, the order in which expressions need to be evaluated may vary.
 
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
 
@@ -210,29 +210,31 @@ Using the denotational semantics note the following two implicit rules employed 
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
 
 \[
-\infer{(ctx \vdash exs_0).exs_1}{ctx \vdash exs_0.exs_1} \eqno{3.1.1}
+\infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right).exs_1}{\vdots}}{ctx \vdash exs_0.exs_1} \eqno{3.1}
 \]
-Recall from the introduction that the sequent always moves inward.
+Recall from the introduction that the sequent always moves inward (and notice the similarity with rule 2.2).
 
 \[
-\infer{\vdash \bot}{\vdash \bot.exs_1} \eqno{3.1.2}
-\]
-
-\[
-\infer{\top \vdash \left(\dfrac{ctx \vdash exs}{\vdots}\right)}{ctx \vdash \top.exs_1} \eqno{3.1.2}
+\infer{\vdash \bot}{(\vdash \bot).exs_1} \eqno{3.2}
 \]
 
 \[
-\infer{\vdash \bot}{\vdash \mathtt{t}_0.exs_1} \eqno{3.1.3.1}
+\infer{\top \vdash \left(\dfrac{ctx \vdash exs_1}{\vdots}\right)}{(ctx \vdash \top).exs_1} \eqno{3.3}
+\]
+\emph{TODO: This rule has an internal context which needs to be dropped once the subexpression has been evaluated.}
+
+
+\[
+\infer{\vdash \bot}{(\vdash \mathtt{t}_0).exs_1} \eqno{3.4.1}
 \]
 
 \[
-\infer{\vdash ((\lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)).exs_1}{c \vdash \mathtt{t}_0.exs_1} \eqno{3.1.3.2}
+\infer{\dfrac{\left(\dfrac{(\vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).exs_1}{\vdots}}{(c \vdash \mathtt{t}_0).exs_1} \eqno{3.4.2}
 \]
 
 \[
-\infer{\left(\dfrac{cs \vdash ((\lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)).exs_1}{\vdots}\quad\dfrac{cs \vdash \mathtt{t}_0.exs_1}{\vdots}\right)}
-{cs,c \vdash \mathtt{t}_0.exs_1} \eqno{3.1.3.3}
+\infer{\dfrac{\left(\dfrac{(cs \vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).exs_1}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).exs_1}{\vdots}}
+{cs,c \vdash \mathtt{t}_0.exs_1} \eqno{3.4.3}
 \]
 
 \[
