@@ -38,10 +38,9 @@ A formal specification of the syntax and semantics for the programming language 
 \subsection{Conventions used in this document}
 \label{sec:conventions}
 
-Normally \textsl{LangLang}'s syntax dictate that \emph{bottom} should be written as an empty pair of parentheses \texttt{()} to indicate that \emph{bottom} is formally just an empty collection in \textsl{LangLang}.
-In this document \emph{bottom} will usually be written using the standard mathematical notation $\bot$.
-However, occasionaly the standard syntax for \emph{bottom}, $()$ may be used to emphasize an empty collection.
-Similarly \emph{top}, written using an underscore \texttt{\_} in LangLang, corresponds to the mathematical notation $\top$ used in this document.\\
+Normally, in source code, \textsl{LangLang}'s syntax would dictate that \emph{bottom} should be written as an empty pair of parentheses \texttt{()} to indicate that \emph{bottom} is formally just an empty collection in \textsl{LangLang}.
+However, in this document \emph{bottom} will usually be written using the standard mathematical notation $\bot$.
+Similarly \emph{top}, written using an underscore \texttt{\_} in LangLang source code, corresponds to the mathematical notation $\top$ used in this document.\\
 
 In addition the following conventions are used to indicate the nature of syntactic elements in the semantics.
 
@@ -123,13 +122,11 @@ ctx \vdash exs_0.exs_1.exs_2 \quad&\triangleq&\quad (ctx \vdash exs_0.exs_1).exs
 \end{eqnarray*}
 
 \section{Operational Semantics}
-The rules for evaluating the operational semantics of \textsl{LangLang} expressions are slightly changed from classical natural deduction which uses propositions.
-For one thing, we do not attempt to involve propositional statements, rules are purely syntactic in nature.\\
-\emph{TODO: The presense of a token \texttt{t} could be interpreted something like a judgement that ``$\exists\mathtt{t}$ in the current context''}\\
+The rules for evaluating the operational semantics of \textsl{LangLang} expressions are slightly changed from classical natural deduction.\\
 
 In particular, the way that the sequent $\vdash$ is interpreted is quite different from the usual interpretation although it realizes many of the same objectives in spirit.
 The sequent is what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
-The way that the sequent works in the operational semantics is to always move inward to evaluate sub-expressions as can be seen in rules 1.4, 2.2, etc... but after the evaluation is completed, sub-expressions are moved over to the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
+The way that the sequent works in the operational semantics is to move inward when evaluating sub-expressions as can be seen in rules 1.4, 2.2, etc... but after the evaluation is completed, sub-expressions are moved over into the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
