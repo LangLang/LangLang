@@ -221,38 +221,38 @@ Recall from the introduction that the sequent always moves inward (and notice th
 \[
 \infer{\top \vdash \left(\dfrac{ctx \vdash exs_1}{\vdots}\right)}{(ctx \vdash \top).exs_1} \eqno{3.3}
 \]
-\emph{TODO: This rule has an internal context which needs to be dropped once the subexpression has been evaluated.}
-
+\emph{TODO: This rule has an internal context which needs to be discarded once the subexpression has been evaluated.}
 
 \[
-\infer{\vdash \bot}{(\vdash \mathtt{t}_0).exs_1} \eqno{3.4.1}
+\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).\top} \eqno{3.4.1}
 \]
 
 \[
-\infer{\dfrac{\left(\dfrac{(\vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).exs_1}{\vdots}}{(c \vdash \mathtt{t}_0).exs_1} \eqno{3.4.2}
+\infer{\left(\dfrac{(ctx \vdash \lambda \rightarrow e_{0_1}).exs_1}{\vdots} \quad \dfrac{(ctx \vdash \lambda \rightarrow es_{0_1}).exs_1}{\vdots}\right)}{(ctx \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).exs_1} \eqno{3.4.2}
+\]
+
+\[
+\infer{\vdash \bot}{(\vdash \mathtt{t}_0).exs_1} \eqno{3.5.1}
+\]
+
+\[
+\infer{\dfrac{\left(\dfrac{(\vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).exs_1}{\vdots}}{(c \vdash \mathtt{t}_0).exs_1} \eqno{3.5.2}
 \]
 
 \[
 \infer{\dfrac{\left(\dfrac{(cs \vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).exs_1}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).exs_1}{\vdots}}
-{cs,c \vdash \mathtt{t}_0.exs_1} \eqno{3.4.3}
+{cs,c \vdash \mathtt{t}_0.exs_1} \eqno{3.5.3}
 \]
 
 \[
 \infer{ctx, \mathtt{t}_{0_0} \rightarrow exs_{0_1}\vdash exs_{0_1}}{ctx \vdash (\mathtt{t}_{0_0} \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.1}
 \]
-\[
-\infer{ctx \vdash exs_{0_1}}{ctx \vdash (\lambda \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.2}
-\]
+
 \[
 \infer{ctx \vdash \left(\left(\lambda \rightarrow \dfrac{ctx \vdash exs_{0_{0_0}} \rightarrow exs_{0_{0_1}}}{\vdots}\right).\top \rightarrow exs_{0_1}\right).\top}
 {ctx \vdash ((exs_{0_{0_0}} \rightarrow exs_{0_{0_1}}) \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.3}
 \]
 \emph{TODO: This is still not correct... need some way to evaluate the first (nested) arrow only once, without going into an infinite loop.}
-
-\[
-\infer{\vdots}{ctx \vdash (\lambda \rightarrow exs_{0_1}).exs_1} \eqno{3.1.4.2}
-\]
-\emph{TODO: Still busy with this one}
 
 \[
 \infer{\left(\dfrac{ctx,(e_{0_0}\ e_{0_1}\ \dots\ e_{0_n}) \vdash e_{0_0}.exs_1}{\vdots}\ \dots\ \dfrac{ctx,(e_{0_0}\ e_{0_1}\ \dots\ e_{0_n}) \vdash e_{0_n}.exs_1}{\vdots}\right)}
