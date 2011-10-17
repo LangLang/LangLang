@@ -217,6 +217,7 @@ Recall from the introduction that the sequent always moves inward (and notice th
 \[
 \infer{\vdash \bot}{(\vdash \bot).exs_1} \eqno{3.2}
 \]
+\emph{TODO: Once assertions are introduced, this rule will have to evaluate its right-hand side in order to type-check.}
 
 \[
 \infer{\top \vdash \left(\dfrac{ctx \vdash exs_1}{\vdots}\right)}{(ctx \vdash \top).exs_1} \eqno{3.3}
@@ -234,6 +235,7 @@ Recall from the introduction that the sequent always moves inward (and notice th
 \[
 \infer{\vdash \bot}{(\vdash \mathtt{t}_0).exs_1} \eqno{3.5.1}
 \]
+\emph{TODO: Once assertions are introduced, this rule will have to evaluate its right-hand side in order to type-check.}
 
 \[
 \infer{\dfrac{\left(\dfrac{(\vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).exs_1}{\vdots}}{(c \vdash \mathtt{t}_0).exs_1} \eqno{3.5.2}
