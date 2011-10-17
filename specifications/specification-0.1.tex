@@ -233,6 +233,16 @@ Recall from the introduction that the sequent always moves inward (and notice th
 \]
 
 \[
+\infer{\left(\dfrac{(ctx \vdash \lambda \rightarrow ex_0).e_{1_0}}{\vdots} \quad \dfrac{(ctx \vdash \lambda \rightarrow ex_0).es_{1_1}}{\vdots}\right)}{(ctx \vdash \lambda \rightarrow ex_0).(e_{1_0}\ es_{1_1})} \eqno{3.4.3}
+\]
+\emph{TODO: Similar to rule 1.4, this rule may actually be far more complex because the collection on the right-hand side will need to be evaluated in its own context... We're leaving this alone for now - will come back later.}
+
+\[
+\infer{ctx \vdash ex_0}{(ctx \vdash \lambda \rightarrow ex_0).ex_0} \eqno{3.4.4}
+\]
+\emph{TODO: This rule is not correct yet - there is no method to determine whether two expressions intersect without evaluating them (pattern matching in this way is only valid if the expression contains no queries). We must concurrently evaluate the expression, constructing a new expression along the way.}
+
+\[
 \infer{\vdash \bot}{(\vdash \mathtt{t}_0).exs_1} \eqno{3.5.1}
 \]
 \emph{TODO: Once assertions are introduced, this rule will have to evaluate its right-hand side in order to type-check.}
