@@ -121,6 +121,19 @@ ctx \vdash exs_0.exs_1.exs_2 \quad&\triangleq&\quad (ctx \vdash exs_0.exs_1).exs
                                   &\triangleq&\quad (ctx \vdash exs_0).exs_1.exs_2
 \end{eqnarray*}
 
+Finally atoms cannot exist twice in the same collection, they are unique elements. Thus,
+
+\begin{eqnarray*}
+(\mathtt{t}\ \mathtt{t}) \quad&\triangleq&\quad \mathtt{t} \\
+(\mathtt{t_a}\ ex_0\ \mathtt{t_b}\ \mathtt{t_b}\ ex_1\ \mathtt{t_a}\ ex_2\ \mathtt{t_c}) \quad&\triangleq&\quad (\mathtt{t_a}\ \mathtt{t_b}\ \mathtt{t_c}\ ex_0\ ex_1\ ex_2) \\
+(\mathtt{t} \rightarrow exs_0 \quad \mathtt{t} \rightarrow exs_1) \quad&\triangleq&\quad \mathtt{t} \rightarrow (exs_0\ exs_1) \\
+(\mathtt{t} \rightarrow exs_0 \quad \mathtt{t}) \quad&\triangleq&\quad (\mathtt{t} \rightarrow exs_0) \\
+(\mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow exs_0 \quad \mathtt{t_a} \rightarrow \mathtt{t_b}) \quad&\triangleq&\quad (\mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow exs_0) \\
+(\mathtt{t_a} \rightarrow (\mathtt{t_b}\ \mathtt{t_c}) \rightarrow exs_0 \quad \mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow exs_1) \quad&\triangleq&\quad (\mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow (exs_0\ exs_1) \quad \mathtt{t_a} \rightarrow \mathtt{t_c} \rightarrow exs_0)\\
+    \quad&\triangleq&\quad (\mathtt{t_a} \rightarrow (\mathtt{t_b} \rightarrow (exs_0\ exs_1) \quad \mathtt{t_c} \rightarrow exs_0))
+\end{eqnarray*}
+Also note the previous rule for $ex_0 \rightarrow (ex_1\ ex_2)$ which is a little more general but relies on the notion of equality for expressions which has some caveats. See, for example, rule 1.4.
+
 \section{Operational Semantics}
 The rules for evaluating the operational semantics of \textsl{LangLang} expressions are slightly changed from classical natural deduction.\\
 
@@ -150,14 +163,20 @@ Recall from the introduction that the sequent always moves inward.\\
 
 While this rule is sufficient in the calculus, \textsl{LangLang} extends it to also use the current collection as part of the context.
 This allows \textsl{LangLang} to use a similar scoping mechanism to conventional programming languages where declarations inside the same scope are interdependent.
-The implementation of this mechanism is far more subtle and complex than the original rule, it is difficult to define inside the operational semantics, however a reasonable approximation can be written as:
+Therefore this rule may be implemented using a more complex mechanism:
 
 \[
-\infer{ \left(\dfrac{ctx,es \vdash e}{\vdots}\quad\dfrac{ctx,e \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.4.a}
+\infer{\left(\dfrac{ctx \vdash e}{\vdots} \quad \dfrac{\left(\dfrac{ctx \vdash es \rightarrow e}{\vdots}\right).\top}{\vdots} \quad \dfrac{ctx \vdash es}{\vdots} \quad \dfrac{\left(\dfrac{ctx \vdash e \rightarrow es}{\vdots}\right).\top}{\vdots}\right)}
+{ctx \vdash (e\ es)} \eqno{1.4.a}
 \]
 
-Note that in the actual implementation every expression needs to be evaluated before it is added to the context.
-Furthermore, since expressions inside the collection may depend on other expressions in the collection, the order in which expressions need to be evaluated may vary.
+\emph{TODO: This rule will still have some trouble when assertions are introduced into the collection. Need to factor in type-checking later on.
+Also note the denotational invariants regarding duplicate symbols/expressions in a collection.}
+
+%Also, the semantics implicitly assumes that tokens cannot exist twice in a collection so ????
+%\[
+%\infer{ctx \vdash (\mathtt{t}\ es)}{ctx \vdash (\mathtt{t}\ \mathtt{t}\ es)} \eqno{1.4.a.a}
+%\]
 
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
 
