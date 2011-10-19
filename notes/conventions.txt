@@ -1,0 +1,9 @@
+  LangLang Conventions
+  --------------------
+
+This document documents some LangLang conventions for programs and projects.
+
+* Libraries and command-line applications, daemons etc are always in all lower case. (E.g. The 'chomp' compiler, the 'bark' command language, the 'nomnom' virtual machine)
+* Graphical tools and projects that are expected to draw publicity in mainstream media are in camel case. (E.g. Lucid, LangLang)
+    * Library components of these project will usually be all lower case like normal libraries, e.g. lucid-kernel
+    * Applications installed inside Lucid may be camel case though, as they qualify as graphical tools
