@@ -159,19 +159,38 @@ The way that the sequent works in the operational semantics is to move inward wh
 \[
 \infer{ \left(\dfrac{ctx \vdash e}{\vdots}\quad\dfrac{ctx \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.4}
 \]
-Recall from the introduction that the sequent always moves inward.\\
+Recall from the introduction that the sequent always moves inward\footnote{Conveniently the sequent is always either on the outside, or only one level deep in the left-hand side of the expression. This fortunate invariant is helpful for simplifying the implementation.}.\\
 
 While this rule is sufficient in the calculus, \textsl{LangLang} extends it to also use the current collection as part of the context.
 This allows \textsl{LangLang} to use a similar scoping mechanism to conventional programming languages where declarations inside the same scope are interdependent.
-Therefore this rule may be implemented using a more complex mechanism:
+Unfortunately, these dependencies can be quite complex, for example consider the expression  $(a.b \rightarrow c \quad a \rightarrow d.b \quad d \rightarrow b)$.
+Therefore this rule may need to be implemented using a more sophisticated mechanism:
 
 \[
-\infer{\left(\dfrac{ctx \vdash e}{\vdots} \quad \dfrac{\left(\dfrac{ctx \vdash es \rightarrow e}{\vdots}\right).\top}{\vdots} \quad \dfrac{ctx \vdash es}{\vdots} \quad \dfrac{\left(\dfrac{ctx \vdash e \rightarrow es}{\vdots}\right).\top}{\vdots}\right)}
-{ctx \vdash (e\ es)} \eqno{1.4.a}
+\infer{\left(
+  \dfrac{ctx \vdash e_0}{\vdots} \dots
+  \dfrac{ctx \vdash e_n}{\vdots} \quad
+  \dfrac{ctx \vdash (e_0 \rightarrow (e_1 \dots e_n)).\top}{\vdots} \dots
+  \dfrac{ctx \vdash (e_n \rightarrow (e_0 \dots e_{n-1})).\top}{\vdots}\right)}
+{ctx \vdash (e_0 \dots e_n)} \eqno{1.4.a}
 \]
 
-\emph{TODO: This rule will still have some trouble when assertions are introduced into the collection. Need to factor in type-checking later on.
-Also note the denotational invariants regarding duplicate symbols/expressions in a collection.}
+\emph{The type checker also has to handle this extension in a special way.
+The expression does not automatically fail to type-check if any of its sub-expressions evaluate to $error$.
+It is sufficient to check that at least one of $ctx \vdash (e_k \rightarrow (e_0 \dots {e_{k-1}}\ {e_{k+1}} \dots e_n)).\top$ does not evaluate to $error$ or $\bot$.
+Except, if all $ctx \vdash (e_k \rightarrow (e_0 \dots {e_{k-1}}\ {e_{k+1}} \dots e_n)).\top$ evaluates to bottom, then the expression also type-checks.}
+This rule could also be written as follows, but it is more difficult to implement type checking in this form.
+
+\[
+\infer{\left(
+  \dfrac{ctx \vdash e}{\vdots} \quad 
+  \dfrac{ctx \vdash es}{\vdots} \quad
+  \dfrac{ctx \vdash (e \rightarrow es).\top}{\vdots} \quad
+  \dfrac{ctx \vdash (es \rightarrow e).\top}{\vdots} \quad
+  \dfrac{ctx \vdash ((es \rightarrow e).\top \rightarrow es).\top}{\vdots}
+\right)}
+{ctx \vdash (e\ es)} \eqno{1.4.a-alt}
+\]
 
 %Also, the semantics implicitly assumes that tokens cannot exist twice in a collection so ????
 %\[
@@ -228,20 +247,31 @@ Using the denotational semantics note the following two implicit rules employed 
 
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
 
+%\[
+%\infer{\dfrac{(ctx_0 \vdash exs_0).exs_1}{\vdots}}{(ctx_0 \vdash exs_0).\dfrac{\dfrac{(ctx_1 \vdash exs_1)}{\vdots}}{exs_{1_{result}}}} \eqno{3.a}
+%\]
+%Once the right-hand side of a query has been fully evaluated, its context is discarded.
+
 \[
-\infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right).exs_1}{\vdots}}{ctx \vdash exs_0.exs_1} \eqno{3.1}
+\infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right).\left(\dfrac{ctx \vdash exs_1}{\vdots}\right)}{\vdots}}{ctx \vdash exs_0.exs_1} \eqno{3.1}
 \]
 Recall from the introduction that the sequent always moves inward (and notice the similarity with rule 2.2).
+The right-hand side must also be evaluated before the query can be executed. 
+This is the case even when the left-hand side is $\top$ or $\bot$ since type-checking must still be performed on the right-hand side even in these special cases.
 
 \[
-\infer{\vdash \bot}{(\vdash \bot).exs_1} \eqno{3.2}
+\infer{\vdash \bot}{(\vdash \bot).(ctx_1 \vdash exs_1)} \eqno{3.2}
 \]
-\emph{TODO: Once assertions are introduced, this rule will have to evaluate its right-hand side in order to type-check.}
+Type checking for this rule will already be taken care of in rule 3.1. 
+Also, evaluated context on the right-hand side is discarded.
+\emph{TODO: Note that right-hand side context may also be nested inside $exs_1$... which is a missing detail in this rule.}
 
 \[
-\infer{\top \vdash \left(\dfrac{ctx \vdash exs_1}{\vdots}\right)}{(ctx \vdash \top).exs_1} \eqno{3.3}
+\infer{\top \vdash exs_1}{(ctx_0 \vdash \top).(ctx_1 \vdash exs_1)} \eqno{3.3}
 \]
-\emph{TODO: This rule has an internal context which needs to be discarded once the subexpression has been evaluated.}
+Type checking for this rule will already be taken care of in rule 3.1. 
+Also, evaluated context on the right-hand side is discarded.
+\emph{TODO: Note that right-hand side context $ctx_1$ may also be nested inside $exs_1$... which is a missing detail in this rule.}
 
 \[
 \infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).\top} \eqno{3.4.1}
