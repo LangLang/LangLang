@@ -275,17 +275,18 @@ Also, evaluated context on the right-hand side is discarded.
 \emph{TODO: Note that right-hand side context $ctx_1$ may also be nested inside $exs_1$... which is a missing detail in this rule.}
 
 \[
-\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).\top} \eqno{3.4.1}
+\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).(\vdash \top)} \eqno{3.4.1}
 \]
 
 \[
-\infer{\left(\dfrac{(ctx \vdash \lambda \rightarrow e_{0_1}).exs_1}{\vdots} \quad \dfrac{(ctx \vdash \lambda \rightarrow es_{0_1}).exs_1}{\vdots}\right)}{(ctx \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).exs_1} \eqno{3.4.2}
+\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow e_{0_1}).(\vdash exs_1)}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow es_{0_1}).(\vdash exs_1)}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).(ctx_1 \vdash exs_1)} \eqno{3.4.2}
 \]
+Technically right-hand side context can be discarded entirely, just keeping the sequent itself for matching with the other rules that expext to take a query with internal context on the right-hand side.
 
 \[
-\infer{\left(\dfrac{(ctx \vdash \lambda \rightarrow ex_0).e_{1_0}}{\vdots} \quad \dfrac{(ctx \vdash \lambda \rightarrow ex_0).es_{1_1}}{\vdots}\right)}{(ctx \vdash \lambda \rightarrow ex_0).(e_{1_0}\ es_{1_1})} \eqno{3.4.3}
+\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash e_{1_0})}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash es_{1_1})}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow ex_0).(ctx_{1_0} \vdash e_{1_0} \quad ctx_{1_1} \vdash es_{1_1})} \eqno{3.4.3}
 \]
-\emph{TODO: Similar to rule 1.4, this rule may actually be far more complex because the collection on the right-hand side will need to be evaluated in its own context... We're leaving this alone for now - will come back later.}
+Keeping the sequent syntax but discarding the internal context, same as rule 3.4.2.
 
 \[
 \infer{ctx \vdash ex_0}{(ctx \vdash \lambda \rightarrow ex_0).ex_0} \eqno{3.4.4}
