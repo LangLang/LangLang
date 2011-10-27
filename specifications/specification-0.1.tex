@@ -208,7 +208,7 @@ Note that the $\lambda$ is never captured inside the context as it is a pseudo-t
 Following this conceptual framework, the evaluator would have to have the ability to assign a new unique symbols for each new instance of $\lambda$ it generates automatically -- almost a little bit like a turing machine writing to its infinite length tape except that no cell can be destructively updated.}.
 
 \[
-\infer{ctx, \mathtt{t}_0 \rightarrow exs_0 \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \mathtt{t}_0 \rightarrow exs_1) \rightarrow exs_1}  \eqno{2.1.2}
+\infer{ctx, \mathtt{t}_0 \rightarrow exs_0 \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \mathtt{t}_0 \rightarrow exs_0) \rightarrow exs_1}  \eqno{2.1.2}
 \]
 
 This form of the lambda expression is just syntactic sugar, but it is very helpful in some cases.
@@ -310,12 +310,14 @@ In this case we'll likely need to re-evaluate context being discarded in previou
 \]
 
 \[
-\infer{ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0}{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.6.2}
+\infer{ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0}{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.6.2}
 \]
 
-
-
-
+\[
+\infer{\dfrac{\mathtt{t_a} \rightarrow (ctx_0,\mathtt{t_a} \rightarrow exs_0 \vdash \lambda \rightarrow exs_0).(ctx_1,\mathtt{t_a} \rightarrow exs_1 \vdash exs_1)}{\vdots}}
+{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a} \rightarrow exs_1)} \eqno{3.6.3}
+\]
+And the context on the right-hand side of the arrow can be discarded...
 
 \[
 \infer{ctx, \mathtt{t}_{0_0} \rightarrow exs_{0_1}\vdash exs_{0_1}}{ctx \vdash (\mathtt{t}_{0_0} \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.1}
