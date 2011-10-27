@@ -284,31 +284,38 @@ Also, evaluated context on the right-hand side is discarded.
 
 \[
 \infer{\dfrac{\left(\dfrac{(cs \vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)}{\vdots}}
-{cs,c \vdash \mathtt{t}_0.(ctx_1 \vdash exs_1)} \eqno{3.4.3}
-\]
-
-
-\[
-\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).(\vdash \top)} \eqno{3.?.1}
+{(cs,c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.4.3}
 \]
 
 \[
-\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow e_{0_1}).(\vdash exs_1)}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow es_{0_1}).(\vdash exs_1)}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).(ctx_1 \vdash exs_1)} \eqno{3.?.2}
+\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).(\vdash \top)} \eqno{3.5.1}
+\]
+
+\[
+\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow e_{0_1}).(\vdash exs_1)}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow es_{0_1}).(\vdash exs_1)}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).(ctx_1 \vdash exs_1)} \eqno{3.5.2}
 \]
 Technically right-hand side context can be discarded entirely, just keeping the sequent itself for matching with the other rules that expext to take a query with internal context on the right-hand side.
 
 \[
-\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash e_{1_0})}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash es_{1_1})}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow ex_0).(ctx_{1_0} \vdash e_{1_0} \quad ctx_{1_1} \vdash es_{1_1})} \eqno{3.?.3}
+\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash e_{1_0})}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash es_{1_1})}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow ex_0).(ctx_{1_0} \vdash e_{1_0} \quad ctx_{1_1} \vdash es_{1_1})} \eqno{3.5.3}
 \]
-Keeping the sequent syntax but discarding the internal context, same as rule 3.?.2.
+Keeping the sequent syntax but discarding the internal context, same as rule 3.5.2.
+
+\emph{TODO: it's likely the internal context of the right-hand side might need to be retained in order to test equality of functions... (through co-evalation?).
+In this case we'll likely need to re-evaluate context being discarded in previous rules...}
 
 
 \[
-\infer{ctx \vdash ex_0}{(ctx \vdash \lambda \rightarrow ex_0).ex_0} \eqno{3.?.4}
+\infer{ctx_0 \vdash \mathtt{t_a}}{(ctx_0 \vdash \lambda \rightarrow \mathtt{t_a}).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.6.1}
 \]
-\emph{TODO: This rule is not correct yet - there is no method to determine whether two expressions intersect without evaluating them (pattern matching in this way is only valid if the expression contains no queries). We must concurrently evaluate the expression, constructing a new expression along the way.}
-\emph{TODO: Also, when this rule is fixed it's likely the internal context of the right-hand side will need to be retained in order to test equality of functions... (through co-evalation?).
-In this case we'll likely need to re-evaluate context being discarded in previous rules...}
+
+\[
+\infer{ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0}{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.6.2}
+\]
+
+
+
+
 
 \[
 \infer{ctx, \mathtt{t}_{0_0} \rightarrow exs_{0_1}\vdash exs_{0_1}}{ctx \vdash (\mathtt{t}_{0_0} \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.1}
