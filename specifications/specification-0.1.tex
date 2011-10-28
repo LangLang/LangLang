@@ -291,21 +291,30 @@ Also, evaluated context on the right-hand side is discarded.
 \]
 
 \[
-\infer{\dfrac{\left(\dfrac{(cs \vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)}{\vdots}}
+\infer{\dfrac{\left(\dfrac{(\lambda \rightarrow (cs \vdash c)).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)}{\vdots}}
 {(cs,c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.5.3}
 \]
 
+This rule operates on the assumption that all expression in the context has already been evaluated.
+
 \[
-\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).(\vdash \top)} \eqno{3.6.1}
+\infer{\dfrac{\left(\lambda \rightarrow \left(\dfrac{ctx_0 \vdash exs_{0_1}}{\vdots}\right)\right).(ctx_1 \vdash exs_1)}{\vdots}}{(ctx_0 \vdash \lambda \rightarrow exs_{0_1}).(ctx_1 \vdash exs_1)} \eqno{3.6.1}
 \]
 
 \[
-\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow e_{0_1}).(\vdash exs_1)}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow es_{0_1}).(\vdash exs_1)}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).(ctx_1 \vdash exs_1)} \eqno{3.6.2}
+\infer{ctx \vdash exs_{0_1}}{(\lambda \rightarrow (ctx \vdash exs_{0_1})).(\vdash \top)} \eqno{3.6.2}
+\]
+Not that the context could also be nested inside $exs_{0_1}$, this isn't explicitly shown...
+
+\[
+\infer{\left(\dfrac{(\lambda \rightarrow (ctx_{0_0} \vdash e_{0_1})).(ctx_1 \vdash exs_1)}{\vdots} \dots \dfrac{(\lambda \rightarrow (ctx_{0_n} \vdash e_{0_n})).(ctx_1 \vdash exs_1)}{\vdots}\right)}
+{(\lambda \rightarrow (ctx_{0_0} \vdash e_{0_1} \dots ctx_{0_n} \vdash es_{0_n})).(ctx_1 \vdash exs_1)} \eqno{3.6.3}
 \]
 Technically right-hand side context can be discarded entirely, just keeping the sequent itself for matching with the other rules that expext to take a query with internal context on the right-hand side.
 
 \[
-\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash e_{1_0})}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash es_{1_1})}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow ex_0).(ctx_{1_0} \vdash e_{1_0} \quad ctx_{1_1} \vdash es_{1_1})} \eqno{3.6.3}
+\infer{\left(\dfrac{(\lambda \rightarrow (ctx_0 \vdash ex_0)).(ctx_{1_0}\vdash e_{1_0})}{\vdots} \dots \dfrac{(\lambda \rightarrow (ctx_0 \vdash ex_0)).(ctx_{1_n} \vdash es_{1_n})}{\vdots}\right)}
+{(ctx_0 \vdash \lambda \rightarrow ex_0).(ctx_{1_0} \vdash e_{1_0} \dots ctx_{1_n} \vdash e_{1_n})} \eqno{3.6.4}
 \]
 Keeping the sequent syntax but discarding the internal context, same as rule 3.6.2.
 
