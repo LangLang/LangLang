@@ -323,18 +323,18 @@ In this case we'll likely need to re-evaluate context being discarded in previou
 
 
 \[
-\infer{ctx_0 \vdash \mathtt{t_a}}{(ctx_0 \vdash \lambda \rightarrow \mathtt{t_a}).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.7.1}
+\infer{ctx_0 \vdash \mathtt{t_a}}{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a})).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.7.1}
 \]
 
 \[
-\infer{ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0}{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.7.2}
+\infer{ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0}{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.7.2}
 \]
 
 \[
-\infer{\mathtt{t_a} \rightarrow \left(\dfrac{(ctx_0,\mathtt{t_a} \rightarrow exs_0 \vdash \lambda \rightarrow exs_0).\left(\dfrac{ctx_1,\mathtt{t_a} \rightarrow exs_1 \vdash exs_1}{\vdots}\right)}{\vdots}\right)}
-{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a} \rightarrow exs_1)} \eqno{3.7.3}
+\infer{\mathtt{t_a} \rightarrow \left(\dfrac{(\lambda \rightarrow (ctx_0,\mathtt{t_a} \rightarrow exs_0 \vdash exs_0)).\left(\dfrac{ctx_1,\mathtt{t_a} \rightarrow exs_1 \vdash exs_1}{\vdots}\right)}{\vdots}\right)}
+{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a} \rightarrow exs_1)} \eqno{3.7.3}
 \]
-And the context on the right-hand side of the arrow can be discarded...
+And the context on the right-hand side of the arrow can be discarded... \emph{TODO: But rule 2.5 might be a problem on the right-hand side of the query!!! can't replace $t_a$ with a lambda here!}
 
 \[
 \infer{ctx, \mathtt{t}_{0_0} \rightarrow exs_{0_1}\vdash exs_{0_1}}{ctx \vdash (\mathtt{t}_{0_0} \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.1}
