@@ -146,19 +146,23 @@ The way that the sequent works in the operational semantics is to move inward wh
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
 \[
-\infer{ctx \vdash \mathtt{t}}{ctx \vdash \mathtt{t}} \eqno{1.1}
+\infer{\vdash \top}{ctx \vdash \top} \eqno{1.1}
 \]
 
 \[
-\infer{\vdash \top}{ctx \vdash \top} \eqno{1.2}
+\infer{\vdash \bot}{ctx \vdash \bot} \eqno{1.2}
 \]
 
 \[
-\infer{\vdash \bot}{ctx \vdash \bot} \eqno{1.3}
+\infer{ctx \vdash \lambda}{ctx \vdash \lambda} \eqno{1.3}
 \]
 
 \[
-\infer{ \left(\dfrac{ctx \vdash e}{\vdots}\quad\dfrac{ctx \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.4}
+\infer{ctx \vdash \mathtt{t}}{ctx \vdash \mathtt{t}} \eqno{1.4}
+\]
+
+\[
+\infer{ \left(\dfrac{ctx \vdash e}{\vdots}\quad\dfrac{ctx \vdash es}{\vdots}\right) }{ ctx \vdash (e\ es) } \eqno{1.5}
 \]
 Recall from the introduction that the sequent always moves inward\footnote{Conveniently the sequent is always either on the outside, or only one level deep in the left-hand side of the expression. This fortunate invariant is helpful for simplifying the implementation.}.\\
 
@@ -173,7 +177,7 @@ Therefore this rule may need to be implemented using a more sophisticated mechan
   \dfrac{ctx \vdash e_n}{\vdots} \quad
   \dfrac{ctx \vdash (e_0 \rightarrow (e_1 \dots e_n)).\top}{\vdots} \dots
   \dfrac{ctx \vdash (e_n \rightarrow (e_0 \dots e_{n-1})).\top}{\vdots}\right)}
-{ctx \vdash (e_0 \dots e_n)} \eqno{1.4.a}
+{ctx \vdash (e_0 \dots e_n)} \eqno{1.5.a}
 \]
 
 \emph{The type checker also has to handle this extension in a special way.
@@ -190,7 +194,7 @@ This rule could also be written as follows, but it is more difficult to implemen
   \dfrac{ctx \vdash (es \rightarrow e).\top}{\vdots} \quad
   \dfrac{ctx \vdash ((es \rightarrow e).\top \rightarrow es).\top}{\vdots}
 \right)}
-{ctx \vdash (e\ es)} \eqno{1.4.a-alt}
+{ctx \vdash (e\ es)} \eqno{1.5.a-alt}
 \]
 
 %Also, the semantics implicitly assumes that tokens cannot exist twice in a collection so ????
@@ -275,47 +279,51 @@ Also, evaluated context on the right-hand side is discarded.
 
 
 \[
-\infer{\vdash \bot}{(\vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.4.1}
+\infer{\vdash \bot}{(ctx_0 \vdash \lambda).(ctx_1 \vdash exs_1)} \eqno{3.4}
 \]
 
 \[
-\infer{\dfrac{\left(\dfrac{(\vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}}{(c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.4.2}
+\infer{\vdash \bot}{(\vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.5.1}
+\]
+
+\[
+\infer{\dfrac{\left(\dfrac{(\vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}}{(c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.5.2}
 \]
 
 \[
 \infer{\dfrac{\left(\dfrac{(cs \vdash \lambda \rightarrow c).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)}{\vdots}}
-{(cs,c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.4.3}
+{(cs,c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.5.3}
 \]
 
 \[
-\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).(\vdash \top)} \eqno{3.5.1}
+\infer{\dfrac{ctx \vdash exs_{0_1}}{\vdots}}{(ctx \vdash \lambda \rightarrow exs_{0_1}).(\vdash \top)} \eqno{3.6.1}
 \]
 
 \[
-\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow e_{0_1}).(\vdash exs_1)}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow es_{0_1}).(\vdash exs_1)}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).(ctx_1 \vdash exs_1)} \eqno{3.5.2}
+\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow e_{0_1}).(\vdash exs_1)}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow es_{0_1}).(\vdash exs_1)}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow (e_{0_1}\ es_{0_1})).(ctx_1 \vdash exs_1)} \eqno{3.6.2}
 \]
 Technically right-hand side context can be discarded entirely, just keeping the sequent itself for matching with the other rules that expext to take a query with internal context on the right-hand side.
 
 \[
-\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash e_{1_0})}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash es_{1_1})}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow ex_0).(ctx_{1_0} \vdash e_{1_0} \quad ctx_{1_1} \vdash es_{1_1})} \eqno{3.5.3}
+\infer{\left(\dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash e_{1_0})}{\vdots} \quad \dfrac{(ctx_0 \vdash \lambda \rightarrow ex_0).(\vdash es_{1_1})}{\vdots}\right)}{(ctx_0 \vdash \lambda \rightarrow ex_0).(ctx_{1_0} \vdash e_{1_0} \quad ctx_{1_1} \vdash es_{1_1})} \eqno{3.6.3}
 \]
-Keeping the sequent syntax but discarding the internal context, same as rule 3.5.2.
+Keeping the sequent syntax but discarding the internal context, same as rule 3.6.2.
 
 \emph{TODO: it's likely the internal context of the right-hand side might need to be retained in order to test equality of functions... (through co-evalation?).
 In this case we'll likely need to re-evaluate context being discarded in previous rules...}
 
 
 \[
-\infer{ctx_0 \vdash \mathtt{t_a}}{(ctx_0 \vdash \lambda \rightarrow \mathtt{t_a}).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.6.1}
+\infer{ctx_0 \vdash \mathtt{t_a}}{(ctx_0 \vdash \lambda \rightarrow \mathtt{t_a}).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.7.1}
 \]
 
 \[
-\infer{ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0}{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.6.2}
+\infer{ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0}{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.7.2}
 \]
 
 \[
 \infer{\mathtt{t_a} \rightarrow \left(\dfrac{(ctx_0,\mathtt{t_a} \rightarrow exs_0 \vdash \lambda \rightarrow exs_0).\left(\dfrac{ctx_1,\mathtt{t_a} \rightarrow exs_1 \vdash exs_1}{\vdots}\right)}{\vdots}\right)}
-{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a} \rightarrow exs_1)} \eqno{3.6.3}
+{(ctx_0 \vdash \lambda \rightarrow (\mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a} \rightarrow exs_1)} \eqno{3.7.3}
 \]
 And the context on the right-hand side of the arrow can be discarded...
 
