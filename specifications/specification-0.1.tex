@@ -240,7 +240,7 @@ Using the denotational semantics note the following two implicit rules employed 
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
 
 \[
-\infer{(ctx \vdash exs_0).exs_1}
+\infer{\dfrac{(ctx \vdash exs_0).exs_1}{\vdots}}
 {ctx \vdash exs_0.exs_1} \eqno{3.1.1}
 \]
 
@@ -250,13 +250,8 @@ Using the denotational semantics note the following two implicit rules employed 
 \]
 
 \[
-\infer{\dfrac{(ctx \vdash exs_0).\left(\dfrac{ctx \vdash exs_{1_0}.exs_{1_1}}{\vdots}\right)}{\vdots}}
-{(ctx \vdash exs_0).(exs_{1_0}.exs_{1_1})} \eqno{3.1.3}
-\]
-
-\[
 \infer{\left(\lambda \rightarrow \left(\dfrac{ctx \vdash exs_0}{\vdots}\right)\right).\left(\dfrac{ctx \vdash exs_1}{\vdots}\right)}
-{(ctx \vdash \lambda \rightarrow exs_0).exs_1} \eqno{3.1.4}
+{(ctx \vdash \lambda \rightarrow exs_0).exs_1} \eqno{3.1.3}
 \]
 
 \[
