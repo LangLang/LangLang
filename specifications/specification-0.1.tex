@@ -255,8 +255,25 @@ Using the denotational semantics note the following two implicit rules employed 
 \]
 
 \[
+\infer{\vdash \bot}
+{(\vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.1.4.1 (formerly 3.5.1)}
+\]
+
+\[
+\infer{\dfrac{\left(\dfrac{(\lambda \rightarrow (\vdash c)).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}}
+{(c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.1.4.2 (formerly 3.5.2)}
+\]
+
+\[
+\infer{\dfrac{\left(\dfrac{(\lambda \rightarrow (cs \vdash c)).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).(ctx_1 \vdash exs_1)}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)}{\vdots}}
+{(cs,c \vdash \mathtt{t}_0).(ctx_1 \vdash exs_1)} \eqno{3.1.4.3 (formerly 3.5.3)}
+\]
+
+
+\[
 \infer{ctx_0 \vdash \mathtt{t_a}}{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a})).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.2}
 \]
+
 
 
 \subsubsection{OLD Rule 3. $ctx \vdash exs_0.exs_1$ }
