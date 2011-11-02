@@ -141,7 +141,7 @@ The rules for evaluating the operational semantics of \textsl{LangLang} expressi
 In particular, the way that the sequent $\vdash$ is interpreted is a little different from the usual interpretation although it realizes many of the same objectives in spirit.
 The meaning of the sequent in this calculus is the provision of a operational `\emph{context}' in which to evaluate expressions\footnote{Although this sounds similar to the usual convention, the sequent is involved in the evaluation in a far more direct manner.}.
 It is also what allows \textsl{LangLang} to perform evaluation in a lazy manner where required\footnote{This also appears to be a (in my humble opinion, fascinating) prerequisite for Turing Completeness in this calculus.}.
-The way that the sequent works in the operational semantics is to move inward when evaluating sub-expressions as can be seen in rules 1.4, 2.2, 3.1 etc... but after the evaluation is completed, sub-expressions are moved over into the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and 2.5\footnote{See also the denotational invariants for contexts, documented earlier.}.
+The way that the sequent works in the operational semantics is to move inward when evaluating sub-expressions as can be seen in rules 1.4, 2.2, 3.1 etc... but after the evaluation is completed, sub-expressions are moved over into the context (and replaced by a newly generated symbol $\lambda$) as in rules 2.1.1 , 2.1.2, 2.3, 2.4 and (TODO: formerly 2.5?)\footnote{See also the denotational invariants for contexts, documented earlier.}.
 
 \subsection{Ideal Semantics}
 \subsubsection{Rule 1. $ctx \vdash exs$ }
@@ -205,20 +205,7 @@ This rule could also be written as follows, but it is more difficult to implemen
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
 
 \[
-\infer{ctx \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \rightarrow exs_0) \rightarrow exs_1} \eqno{2.1.1}
-\]
-
-Note that the $\lambda$ is never captured inside the context as it is a pseudo-token\footnote{Conceptually $\lambda$ behaves like any regular symbol, thus a new unique symbol could be generated and placed in the context.
-Following this conceptual framework, the evaluator would have to have the ability to assign a new unique symbols for each new instance of $\lambda$ it generates automatically -- almost a little bit like a turing machine writing to its infinite length tape except that no cell can be destructively updated.}.
-
-\[
-\infer{ctx, \mathtt{t}_0 \rightarrow exs_0 \vdash \lambda \rightarrow exs_1}{ctx \vdash (\lambda \mathtt{t}_0 \rightarrow exs_0) \rightarrow exs_1}  \eqno{2.1.2}
-\]
-
-This form of the lambda expression is just syntactic sugar, but it is very helpful in some cases.
-
-\[
-\infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{\vdots}}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.2}
+\infer{\left(ctx \vdash exs_0\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.2}
 \]
 Recall from the introduction that the sequent always moves inward.
 
@@ -251,6 +238,27 @@ Using the denotational semantics note the following two implicit rules employed 
 \]
 
 \subsubsection{Rule 3. $ctx \vdash exs_0.exs_1$ }
+
+\[
+\infer{\dfrac{\left(\dfrac{ctx \vdash exs_{0_0}.exs_{0_1}}{\vdots}\right).exs_1}{\vdots}}
+{ctx \vdash (exs_{0_0}.exs_{0_1}).exs_1} \eqno{3.1}
+\]
+
+\[
+\infer{\dfrac{ctx \vdash exs_0.\left(\dfrac{ctx \vdash exs_{1_0}.exs_{1_1}}{\vdots}\right)}{\vdots}}
+{ctx \vdash exs_0.(exs_{1_0}.exs_{1_1})} \eqno{3.2}
+\]
+
+\[
+\infer{ctx \vdash \mathtt{t_a}}{ctx \vdash (\lambda \rightarrow \mathtt{t_a}).\mathtt{t_a}} \eqno{3.3}
+\]
+
+\[
+\infer{ctx_0 \vdash \mathtt{t_a}}{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a})).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.4}
+\]
+
+
+\subsubsection{OLD Rule 3. $ctx \vdash exs_0.exs_1$ }
 
 %\[
 %\infer{\dfrac{(ctx_0 \vdash exs_0).exs_1}{\vdots}}{(ctx_0 \vdash exs_0).\dfrac{\dfrac{(ctx_1 \vdash exs_1)}{\vdots}}{exs_{1_{result}}}} \eqno{3.a}
@@ -298,6 +306,41 @@ Also, evaluated context on the right-hand side is discarded.
 This rule operates on the assumption that all expression in the context has already been evaluated.
 
 \[
+\infer{\dfrac{\left(\dfrac{ctx \vdash exs_{0_0}.exs_{0_1}}{\vdots}\right).exs_1}{\vdots}}
+{ctx \vdash (exs_{0_0}.exs_{0_1}).exs_1} \eqno{3.6 (TODO)}
+\]
+
+\[
+\infer{\dfrac{ctx \vdash exs_0.\left(\dfrac{ctx \vdash exs_{1_0}.exs_{1_1}}{\vdots}\right)}{\vdots}}
+{ctx \vdash exs_0.(exs_{1_0}.exs_{1_1})} \eqno{3.6 (TODO)}
+\]
+
+\[
+\infer{(exs_{0_0}.exs_{1_0} \rightarrow (exs_{0_0} \rightarrow exs_{0_1}).\top.((exs_{1_0} \rightarrow exs_{1_1}).\top)).\top}
+{(\lambda \rightarrow exs_{0_0} \rightarrow exs_{0_1}).(exs_{1_0} \rightarrow exs_{1_1})} \eqno{3.6 (TODO)}
+\]
+
+\[
+\infer{}
+{(ctx \vdash exs_{0_0} \rightarrow exs_{0_1}).(exs_{1_0} \rightarrow exs_{1_1})} \eqno{3.6 (TODO)}
+\]
+
+\[
+\infer{ctx \vdash \lambda \rightarrow exs_1}
+{ctx \vdash (\lambda \rightarrow exs_0) \rightarrow exs_1} \eqno{2.1.1(TODO)}
+\]
+
+Note that the $\lambda$ is never captured inside the context as it is a pseudo-token\footnote{Conceptually $\lambda$ behaves like any regular symbol, thus a new unique symbol could be generated and placed in the context.
+Following this conceptual framework, the evaluator would have to have the ability to assign a new unique symbols for each new instance of $\lambda$ it generates automatically -- almost a little bit like a turing machine writing to its infinite length tape except that no cell can be destructively updated.}.
+
+\[
+\infer{ctx, \mathtt{t}_0 \rightarrow exs_0 \vdash \lambda \rightarrow exs_1}
+{ctx \vdash (\lambda \mathtt{t}_0 \rightarrow exs_0) \rightarrow exs_1}  \eqno{2.1.2(TODO)}
+\]
+
+This form of the lambda expression is just syntactic sugar, but it is very helpful in some cases.
+
+\[
 \infer{\dfrac{\left(\lambda \rightarrow \left(\dfrac{ctx_0 \vdash exs_{0_1}}{\vdots}\right)\right).(ctx_1 \vdash exs_1)}{\vdots}}{(ctx_0 \vdash \lambda \rightarrow exs_{0_1}).(ctx_1 \vdash exs_1)} \eqno{3.6.1}
 \]
 
@@ -332,9 +375,21 @@ In this case we'll likely need to re-evaluate context being discarded in previou
 
 \[
 \infer{\mathtt{t_a} \rightarrow \left(\dfrac{(\lambda \rightarrow (ctx_0,\mathtt{t_a} \rightarrow exs_0 \vdash exs_0)).\left(\dfrac{ctx_1,\mathtt{t_a} \rightarrow exs_1 \vdash exs_1}{\vdots}\right)}{\vdots}\right)}
-{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a} \rightarrow exs_0)).(ctx_1 \vdash \mathtt{t_a} \rightarrow exs_1)} \eqno{3.7.3}
+{(\lambda \rightarrow ((ctx_0 \vdash \mathtt{t_a}) \rightarrow exs_0)).((ctx_1 \vdash \mathtt{t_a}) \rightarrow exs_1)} \eqno{3.7.3}
 \]
-And the context on the right-hand side of the arrow can be discarded... \emph{TODO: But rule 2.5 might be a problem on the right-hand side of the query!!! can't replace $t_a$ with a lambda here!}
+And the context on the right-hand side of the arrow can be discarded... \emph{TODO: But rule 2.5 might be a problem on the right-hand side of the query!!! can't replace $t_a$ with a lambda here!
+It appears as if 2.5 should only be evaluated on the left-hand side of a query, however this is easier said than done.}
+
+\[
+\infer{todo...??}
+{(\lambda \rightarrow (((ctx_0 \vdash \mathtt{t_a}) \rightarrow exs_{0_0}) \rightarrow exs_{0_1})).((ctx_1 \vdash \mathtt{t_a}) \rightarrow exs_1)} \eqno{3.7.4}
+\]
+
+\[
+\infer{todo...??}
+{(\lambda \rightarrow (((ctx_0 \vdash \mathtt{t_a}) \rightarrow exs_{0_0}) \rightarrow exs_{0_1})).((ctx_1 \vdash \mathtt{t_a}) \rightarrow exs_1)} \eqno{3.7.4}
+\]
+
 
 \[
 \infer{ctx, \mathtt{t}_{0_0} \rightarrow exs_{0_1}\vdash exs_{0_1}}{ctx \vdash (\mathtt{t}_{0_0} \rightarrow exs_{0_1}).\top} \eqno{3.1.4.1.1}
