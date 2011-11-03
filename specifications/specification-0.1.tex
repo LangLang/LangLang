@@ -13,6 +13,10 @@
 %\usepackage{amsthm}
 \usepackage{proof}
 
+% Temporary:
+\usepackage{color}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+
 
 %%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%
 
@@ -217,6 +221,7 @@ Recall from the introduction that the sequent always moves inward.
 \infer{\vdash \top}{(\vdash \top) \rightarrow exs_1} \eqno{2.4}
 \]
 
+
 \[
 \infer{ctx,\mathtt{t}_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash \mathtt{t}_0) \rightarrow exs_1} \eqno{2.5}
 \]
@@ -269,13 +274,11 @@ Using the denotational semantics note the following two implicit rules employed 
 {(cs,c \vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.3 (formerly 3.5.3)}
 \]
 
-
 \[
 \infer{ctx_0 \vdash \mathtt{t_a}}{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a})).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.2}
 \]
 
-
-
+{\color{gray}
 \subsubsection{OLD Rule 3. $ctx \vdash exs_0.exs_1$ }
 
 %\[
@@ -425,7 +428,7 @@ It appears as if 2.5 should only be evaluated on the left-hand side of a query, 
 \]
 
 \emph{TODO: Check rule 3.1.5, there was still some confusion here about evaluation and possible memoization - see the code (it's 3.1.4 in the code at the moment)}
-
+}
 \subsection{Implementation Semantics}
 
 \section{Implementation Details}
