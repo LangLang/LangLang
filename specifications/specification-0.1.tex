@@ -221,10 +221,11 @@ Recall from the introduction that the sequent always moves inward.
 \infer{\vdash \top}{(\vdash \top) \rightarrow exs_1} \eqno{2.4}
 \]
 
-
+{\color{gray}
 \[
-\infer{ctx,\mathtt{t}_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash \mathtt{t}_0) \rightarrow exs_1} \eqno{2.5}
+\infer{ctx,\mathtt{t}_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash \mathtt{t}_0) \rightarrow exs_1} \eqno{2.5 - now 3.?}
 \]
+}
 
 \[
 \infer{\left(\dfrac{(ctx_0 \vdash e_{0_0}) \rightarrow exs_1}{\vdots}\ \dots\ \dfrac{(ctx_n \vdash e_{0_n}) \rightarrow exs_1}
@@ -273,6 +274,12 @@ Using the denotational semantics note the following two implicit rules employed 
 \infer{\dfrac{\left(\dfrac{(\lambda \rightarrow (cs \vdash c)).(\mathtt{t}_0 \rightarrow \top)}{\vdots}\right).exs_1}{\vdots}\quad\dfrac{(cs \vdash \mathtt{t}_0).exs_1}{\vdots}}
 {(cs,c \vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.3 (formerly 3.5.3)}
 \]
+
+{\color{gray}
+\[
+\infer{ctx,\mathtt{t}_0 \rightarrow exs_1 \vdash \lambda \rightarrow exs_1}{(ctx \vdash \mathtt{t}_0) \rightarrow exs_1} \eqno{TODO: 2.5}
+\]
+}
 
 \[
 \infer{ctx_0 \vdash \mathtt{t_a}}{(\lambda \rightarrow (ctx_0 \vdash \mathtt{t_a})).(ctx_1 \vdash \mathtt{t_a})} \eqno{3.2}
