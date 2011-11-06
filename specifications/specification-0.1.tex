@@ -260,20 +260,37 @@ Using the denotational semantics note the following two implicit rules employed 
 {(ctx \vdash \lambda \rightarrow exs_0).exs_1} \eqno{3.1.3}
 \]
 
+
+\[
+\infer{\bot}
+{(\vdash \mathtt{t}_0).\top} \eqno{3.1.4.1.1}
+\]
+
+\[
+\infer{\dfrac{\vdash (\lambda \rightarrow c).\mathtt{t}_0.\top}{\vdots}}
+{(c \vdash \mathtt{t}_0).\top} \eqno{3.1.4.1.2}
+\]
+
+\[
+\infer{\left(\dfrac{cs \vdash (\lambda \rightarrow c).\mathtt{t}_0.\top}{\vdots} \quad \dfrac{(cs \vdash \mathtt{t}_0).\top}{\vdots}\right)}
+{(c,cs \vdash \mathtt{t}_0).\top} \eqno{3.1.4.1.3}
+\]
+
+
 \[
 \infer{\dfrac{(\vdash \lambda \rightarrow \bot).exs_1}{\vdots}}
-{(\vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.1}
+{(\vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.2.1}
 \]
 
 \[
 \infer{\dfrac{\left(\lambda \rightarrow \left(\dfrac{\left(\vdash (\lambda \rightarrow  c).\mathtt{t}_0\right).\top}{\vdots}\right)\right).\left(\dfrac{c \vdash exs_1}{\vdots}\right)}{\vdots}}
-{(c \vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.2}
+{(c \vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.2.2}
 \]
 
 \[
 \infer{\dfrac{\left(\lambda \rightarrow \left(\dfrac{(cs \vdash (\lambda \rightarrow c).\mathtt{t}_0).\top}{\vdots}\right)\right).\left(\dfrac{cs,c \vdash exs_1}{\vdots}\right)}{\vdots}\quad
-\dfrac{(cs \vdash \mathtt{t}_0).exs_1}{\vdots}}
-{(cs,c \vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.3}
+\dfrac{\left(\dfrac{cs \vdash \mathtt{t}_0.\top}{\vdots}\right).\left(\dfrac{c,cs \vdash exs_1}{\vdots}\right)}{\vdots}}
+{(cs,c \vdash \mathtt{t}_0).exs_1} \eqno{3.1.4.2.3}
 \]
 
 {\color{gray}
