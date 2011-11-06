@@ -1,0 +1,8 @@
+       Introduction to LangLang for Lispers
+      ======================================
+
+Lispers are what I like to call "a tough crowd", and rightfully so! 
+Lisp was invented by John McCarthy in 1958 .... (TODO)
+It has since proven to be one of the most singularly brilliant inventions in computer science.
+
+In Lisp, the list is a ubiquitous data structure... (TODO)

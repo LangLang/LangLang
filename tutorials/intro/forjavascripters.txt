@@ -1,0 +1,6 @@
+       Introduction to LangLang for JavaScripters
+      ============================================
+
+TODO: Relate jQuery's query mechanism to queries in LangLang
+
+

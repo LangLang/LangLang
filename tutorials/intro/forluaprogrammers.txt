@@ -1,0 +1,18 @@
+       Introduction to LangLang for Lua
+      ==================================
+
+...
+
+Although Lua is not built on formal foundations as is LangLang, interestingly it is one of the few programming languages that
+is also designed around the concept of an associative data structure.
+In Lua this data structure is called a table and is almost as ubiquitous as is the list data structure in Lisp.
+In fact, the authors even state "Tables are for Lua what lists are for Lisp: powerful data-structuring mechanisms." [ref: http://www.lua.org/ddj.html]
+
+Despite the difference in background, LangLang has a suprisingly similar philosophy to Lua. 
+For one thing, it has a compact core with a tiny set of powerful operators.
+(TODO: Fit this in: However, where the associative data structure is concerned, LangLang goes even further.
+Together with querying operators, associative definitions form a turing complete (but stratified*) calculus on which the entire language has been built!)
+
+*more on this later
+
+
