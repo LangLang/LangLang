@@ -257,15 +257,11 @@ This rule could also be written as follows, but it is more difficult to implemen
 
 \emph{TODO: make this point - it looks like the best way of using the sequent is as a way of something like "this piece of code has already been evaluated" we can evaluate it -- see some of the new rules in Rule 3.}
 
-{\color{gray}
 \subsubsection{Rule 2. $ctx \vdash exs_0 \rightarrow exs_1$ }
 
-\emph{NOTE: for now rule 2 is grayed out as many of its rules are being integrated into rule 3.
-Specifically we want control over the way the sequent behaves inside rules (e.g. see the rules 2.2, 2.6 etc) to be given to query rules.
-This seems to make sense as we expect all progress in the state of the program to be a result of evaluation (i.e. queries).}
-
 \[
-\infer{\left(ctx \vdash exs_0\right) \rightarrow exs_1}{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.2}
+\infer{\dfrac{\left(\dfrac{ctx \vdash exs_0}{\vdots}\right) \rightarrow exs_1}{\vdots}}
+{ctx \vdash exs_0 \rightarrow exs_1} \eqno{2.2}
 \]
 Recall from the introduction that the sequent always moves inward.
 
@@ -276,6 +272,8 @@ Recall from the introduction that the sequent always moves inward.
 \[
 \infer{\vdash \top}{(\vdash \top) \rightarrow exs_1} \eqno{2.4}
 \]
+
+{\color{gray}
 
 {\color{gray}
 \[
