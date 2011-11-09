@@ -56,6 +56,55 @@ In addition, the following conventions are used to indicate the nature of syntac
   \item[\texttt{t}] A token representing some symbol (atomic unit).
 \end{description}
 
+\section{Axioms}
+
+We will prove that the operational semantics in the section following the next are consistent by using the axioms presented in this section.
+\\
+
+\emph{Note to self: Godel's first incompleteness theorem states that no consistent system of axioms whose theorems can be listed by an `effective procedure' (essentially, a computer program) is capable of proving all truths about the relations of the natural numbers (arithmetic)... [ref: wikipedia - TODO: better reference].
+However, couldn't this simply mean that there will be infinite theorems in a complete system?
+So then, isn't it possible (or even likely) that all statements about the natural numbers that are true could be proven, but it would take an indeterminite amount of time and if it is not true then the procedure for proving them might not halt (since there is no way of knowing whether or not such a procedure should halt).
+This is pretty much exactly what the halting problem also says, so the correspondence would make sense knowing that proofs are programs.
+}
+\\
+
+\subsubsection{Syntax}
+
+Let $p$ denote propositions with a boolean value for these axioms.
+
+\[
+p_0 \rightarrow p_1 \quad \triangleq \quad \infer{p_1}{p_0} \quad \triangleq \quad p_0 \vdash p_1
+\]
+
+Ignoring operational content (evaluation).\\
+
+However, in operational terms three symbols mean:
+\begin{description}
+  \item[$p_0 \vdash p_1$] ``Assuming'' -- Has been proven in the \emph{past}.
+  \item[$p_0 \rightarrow p_1$] ``Implies'' -- We now know this in the \emph{present}. (I.e. This has just come to light)
+  \item[$\infer{p_1}{p_0}$] ``Evaluates to'' -- This will be shown in the \emph{future}.
+\end{description}
+
+\subsubsection{Modus ponens}
+
+\[
+p_0 \vdash \infer{p_1}{p_0 \rightarrow p_1} \quad \triangleq \quad p_0 \rightarrow p_1 \vdash \infer{p_1}{p_0}
+\]
+
+If we already know $p_0$ in the past and find out $p_0 \rightarrow p_1$ now, then after evaluation we will know $p_1$.
+If we already know $p_0 \rightarrow p_1$ in the past and find $p_0$ now, then after evaluation we will know $p_1$.\\
+
+In fact, we just need to know `$\rightarrow$' takes the past to the future.
+The sequent is syntactic sugar for marking where we are and the \emph{rule form} horizontal line is syntactic sugar for marking where we are going.\\
+
+Or well, probably like this instead (normal natural deduction):
+
+\[ 
+\infer{p_0 \rightarrow p_1, p_0 \vdash p_1}{p_0 \rightarrow p_1 \vdash p_0} \quad \triangleq \quad \infer{p_0, p_0 \rightarrow p_1 \vdash p_1}{p_0 \vdash p_0 \rightarrow p_1}
+\]
+
+\emph{TODO... Which is essentially what we're aiming to do with contexts later in 3.1.5.1... Move stuff from the state to the context, or the present to the past. We're also saying you can't find out `conjunctions' simultaneously. Operations like `and' and `or' have operational content in order to evaluate.}
+
 \section{Denotational Semantics}
 
 The denotational semantics listed here serve as invariants that inform the design of the operational semantics in the next section.\\
