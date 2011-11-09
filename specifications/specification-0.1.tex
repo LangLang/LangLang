@@ -12,6 +12,7 @@
 \usepackage{amssymb}
 %\usepackage{amsthm}
 \usepackage{proof}
+\usepackage{cancel}
 
 % Temporary:
 \usepackage{color}
@@ -68,6 +69,7 @@ This is pretty much exactly what the halting problem also says, so the correspon
 }
 \\
 
+{\color{gray}
 \subsubsection{Syntax}
 
 Let $p$ denote propositions with a boolean value for these axioms.
@@ -104,6 +106,65 @@ Or well, probably like this instead (normal natural deduction):
 \]
 
 \emph{TODO... Which is essentially what we're aiming to do with contexts later in 3.1.5.1... Move stuff from the state to the context, or the present to the past. We're also saying you can't find out `conjunctions' simultaneously. Operations like `and' and `or' have operational content in order to evaluate.}
+}
+
+\subsubsection{An operational modus ponens}
+
+In LangLang implication is cast into an operational framework.
+Rather than `$a$ implies $b$' we have $a \rightarrow b \triangleq$ `$a$ allows $b$'.
+Thus, $a$ does not automatically deliver the result $b$, the result is given only when it is queried.\\
+
+Furthermore, $a \rightarrow (b \rightarrow c)$ in this calculus means `$a$ is allowed and through confirmation $a$ allows ($b$ which, through confirmation, allows $c$)'.
+This is different from implication, where $a$ would not imply $b$ even it implies that $b$ implies $c$.
+We have formulated our rules in this way in order to act like automata where $a \rightarrow b \rightarrow c$ allows one to go to $b$ directly from $a$.
+This allows us to build an observational logic {\color{gray}(which marries operational and extensional concepts?)}.\\
+
+These two rules have no computational content, hence they will not change
+
+\[
+\infer{a \rightarrow b}{a \rightarrow b}
+\]
+
+\[
+\infer{a \rightarrow b \vdash a}{a \rightarrow b \vdash a}
+\]
+
+However, confirming $b$ in $a$ will deliver $b$.
+
+\[
+\infer{a \rightarrow b \vdash b}{a \rightarrow b \vdash a.b}
+\]
+
+Similarly, if $b$ is allowed then whatever \emph{it} allows due to $a$ will be allowed. We say that $b$ is allowed in the context of $a$...
+
+\[
+\infer{a \rightarrow (b \rightarrow c), b \rightarrow c \vdash b}{a \rightarrow (b \rightarrow c) \vdash a.b}
+\]
+
+Finally, what does it mean to say $(a \rightarrow b) \rightarrow c$? {\color{gray}\emph{TODO...}}\\
+
+When a symbol is written, it includes context. Hence,
+
+\[
+\infer{d \rightarrow e \vdash a \rightarrow (b\ c)}{a \rightarrow b, a \rightarrow c, d \rightarrow e \vdash a}
+\]
+
+Thus when a query is done it evaluates the least nested arrow,
+
+\[
+\infer{a \rightarrow b \vdash b}{\vdash (a \rightarrow b).b}
+\]
+
+\[
+\infer{\dfrac{(a \rightarrow b) \rightarrow c \vdash ((a \rightarrow b) \rightarrow c).b}{(a \rightarrow b) \rightarrow c \vdash \bot}}{(a \rightarrow b) \rightarrow c \vdash (a \rightarrow b).b}
+\]
+
+Thus rules like this are not correct
+
+\[
+\infer{\cancel{ctx,a \rightarrow b \vdash a.b}}{ctx \vdash (a \rightarrow b).b}
+\]
+
 
 \section{Denotational Semantics}
 
@@ -346,10 +407,10 @@ Using the denotational semantics note the following two implicit rules employed 
 {(ctx \vdash exs_{0_0} \rightarrow exs_{0_1}).\top} \eqno{3.1.5.1.2}
 \]
 
-\emph{TODO: For 3.1.5.1.2 to work we need a rule that takes something like $((ctx \vdash exs_{0_0}) \rightarrow exs_{0_1}).exs_1$
-where the left-hand side has already been evaluated to something like $(\lambda \rightarrow (ctx, exs_{0_0} \rightarrow exs_{0_1} \vdash exs_{0_1})).(\dots \vdash exs_1)$.
-Well... actually, probably through the intermediate step $(ctx, exs_{0_0} \rightarrow exs_{0_1} \vdash \lambda \rightarrow exs_{0_1}).exs_1$...
-Also see the old rules 2.2, 2.5 and 2.6.}
+\[
+\infer{\dfrac{(ctx, exs_{0_0} \rightarrow exs_{0_1} \vdash \lambda \rightarrow exs_{0_1}).exs_1}{\vdots}}
+{((ctx \vdash exs_{0_0}) \rightarrow exs_{0_1}).exs_1} \eqno{3.1.5.1.3}
+\]
 
 \[
 \infer{\dfrac{\left(\lambda \rightarrow \left(\dfrac{ctx \vdash (\mathtt{t}_0 \rightarrow exs_0).\top}{\vdots}\right)\right).\left(\dfrac{ctx \vdash exs_1}{\vdots}\right)}{\vdots}}
