@@ -143,23 +143,17 @@ Similarly, if $b$ is allowed then whatever \emph{it} allows due to $a$ will be a
 
 Finally, what does it mean to say $(a \rightarrow b) \rightarrow c$? {\color{gray}\emph{TODO...}}\\
 
-When a symbol is written, it includes context. Hence,
-
-\[
-\infer{d \rightarrow e \vdash a \rightarrow (b\ c)}{a \rightarrow b, a \rightarrow c, d \rightarrow e \vdash a}
-\]
-
-Thus when a query is done it evaluates the least nested arrow,
+When a symbol is written, it includes context. Thus, when a query is done it evaluates the least nested arrow,
 
 \[
 \infer{a \rightarrow b \vdash b}{\vdash (a \rightarrow b).b}
 \]
 
 \[
-\infer{\dfrac{(a \rightarrow b) \rightarrow c \vdash ((a \rightarrow b) \rightarrow c).b}{(a \rightarrow b) \rightarrow c \vdash \bot}}{(a \rightarrow b) \rightarrow c \vdash (a \rightarrow b).b}
+\infer{(a \rightarrow b) \rightarrow c \vdash \bot}{(a \rightarrow b) \rightarrow c \vdash (a \rightarrow b).b}
 \]
 
-Thus rules like this are not correct
+Thus rules like this are not correct, since it depends on the context.
 
 \[
 \infer{\cancel{ctx,a \rightarrow b \vdash a.b}}{ctx \vdash (a \rightarrow b).b}
