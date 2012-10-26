@@ -1,0 +1,401 @@
+\documentclass[a4paper,11pt]{article}
+
+%%%%%%%%%%%%%%%%%%% PACKAGES %%%%%%%%%%%%%%%%%%%
+%\usepackage{tikz}
+%\usepackage{geometry}
+%\geometry{a4paper}
+%\usepackage{gcl}
+%\usepackage{float}
+%\usepackage{wrapfig}
+\usepackage{mathtools}
+%\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{amsthm}
+\usepackage{proof}
+\usepackage{cancel}
+
+% Temporary:
+\usepackage{color}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+
+
+%%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{LangLang 0.1}
+%\subtitle{Specification}
+\author{Rehno Lindeque}
+
+\maketitle
+
+\begin{abstract}
+A formal specification of the syntax and semantics for the programming language \textsl{LangLang}.
+\end{abstract}
+\textbf{Keywords:} \textsl{LangLang}, specification, denotational semantics, operational semantics
+
+\section{Introduction}
+
+\subsection{Conventions used in this document}
+\label{sec:conventions}
+
+Normally, in source code, \textsl{LangLang}'s syntax would dictate that \emph{bottom} should be written as an empty pair of parentheses \texttt{()} to indicate that \emph{bottom} is formally just an empty collection in \textsl{LangLang}.
+However, in this document \emph{bottom} will usually be written using the standard mathematical notation $\bot$.
+Similarly \emph{top}, written using an underscore \texttt{\_} in \textsl{LangLang} source code, corresponds to the mathematical notation $\top$ used in this document.\\
+
+\section{Denotational Semantics}
+
+The denotational semantics listed here serve as invariants that inform the design of the operational semantics given in the next section.
+
+\emph{Symbols} are the smallest atomic elements in \textsl{LangLang} and are represented by simple whitespace free \emph{tokens} in source code.\\
+In denotational terms two symbols are equal if their token representations are identical.
+To facilitate generic programming tokens may also be constructed programmatically, however we delay treatment of this topic to later sections.\\
+
+\emph{Collections} lump together expressions.
+As with sets, the ordering of elements in a collection is regarded as largely incidental with no effect on denotational meaning.
+
+\[
+(e\ d\ c\ b\ a) \quad\triangleq\quad (a\ b\ c\ d\ e)
+\]
+
+However, in contrast to classical notions of a set, collections in \textsl{LangLang} may not be nested.
+Any collection that contains another collection is semantically indistinguishable from the collection that contains all of their elements.
+Intuitively this suggests that a collection is an intrinsicly \emph{structureless} object, completely defined by its contents\footnote{That said, collections of expressions do interact with connectives in interesting ways suggesting that collections are, from an extrinsic point of view, completely connected structures!}.
+
+\[
+(a\ (b\ (c\ d))\ e) \quad\triangleq\quad (a\ b\ c\ d\ e)
+\]
+
+We emphasize that collections are indeed \emph{structureless} in an operational sense and that the burden of converting between internal representations of syntactic forms
+such as $(a\ (b\ c)\ d)$ and $(a\ b\ c\ d)$ will be imposed on an implementation.\\
+
+When a collection contains only a single expression, parentheses may be dropped entirely.
+\[
+(ex) \quad\triangleq\quad ex
+\]
+
+When a collection contains the same structure twice, the second structure can be discarded without loss of generality.
+\begin{eqnarray*}
+(ex\ ex) \quad&\triangleq&\quad ex \\
+(ex_1\ ex_2\ ex_3\ ex_2) \quad&\triangleq&\quad (ex_1\ ex_2\ ex_2)
+\end{eqnarray*}
+
+An \emph{empty collection} $()$, denoted in this document using the token $\bot$\footnote{Take note of the conventions for writing \emph{bottom} mentioned in section \ref{sec:conventions}.}, has similarly transient boundaries.
+\begin{eqnarray*}
+() \quad&\triangleq&\quad \bot \\
+(\bot\ \bot) \quad&\triangleq&\quad \bot \\
+(ex_1\ ex_2\ \bot\ ex_4) \quad&\triangleq&\quad (ex_1\ ex_2\ ex_4)
+\end{eqnarray*}
+
+A \emph{universal collection}, signified by $\top$ consists of all possible structures\footnote{...including many infinite structures that are not computable.}.
+Thus, $\top$ will subsume any other expression that is lumped with it.
+
+\begin{eqnarray*}
+(\top\ \top) \quad&\triangleq&\quad \top \\
+(ex_1\ ex_2\ \top\ ex_4) \quad&\triangleq&\quad \top
+\end{eqnarray*}
+
+\emph{Arrows} add structure to objects in the language.
+Similar to the implication connective in logic, an arrow indicates a causal relationship.
+However, $a \rightarrow b$ should be read as ``$a$ leads to $b$'' instead of ``$a$ implies $b$'' as $a$ and $b$ are atoms in the semantics without any assumptions regarding the type of information that they signify.
+
+The transience of collection boundaries extend to connecting arrows.
+An arrow does not connect directly to a collection object, but instead connect only to its contents.
+The object to the left of an arrow is refered to as the domain with respect to the relation while the object to the right is refered to as the codomain.
+When either or both the domain and codomain are collections then the arrow represents a projection of all elements in the domain onto each of the elements in the codomain.
+
+For this reason, an arrow that connects to an empty collection simply does not exist.
+\begin{eqnarray*}
+\bot \rightarrow exs \quad&\triangleq&\quad \bot \\
+exs \rightarrow \bot \quad&\triangleq&\quad \bot \\
+(ex_1\ ex_2) \rightarrow ex_3 \quad&\triangleq&\quad \left(
+  \begin{array}{c}
+    ex_1 \rightarrow ex_3 \\
+    ex_2 \rightarrow ex_3
+  \end{array}\right) \\
+ex_1 \rightarrow (ex_2\ ex_3) \quad&\triangleq&\quad \left(
+  \begin{array}{c}
+    ex_1 \rightarrow ex_2 \\
+    ex_1 \rightarrow ex_2
+  \end{array}\right) \\
+(ex_1\ ex_2) \rightarrow (ex_3\ ex_4) \quad&\triangleq&\quad \left(
+  \begin{array}{c}
+    ex_1 \rightarrow ex_3 \\
+    ex_1 \rightarrow ex_4 \\
+    ex_2 \rightarrow ex_3 \\
+    ex_2 \rightarrow ex_4
+  \end{array}\right)
+\end{eqnarray*}
+
+Intuitively, our interpretation of $\bot$ can be expressed as an absence of information.
+It is not possible to learn anything new from $\bot$ other than the simple fact that nothing could be learned from what was given
+\footnote{In this our approach differs from pure intuitionistic ideology. An (\emph{exclusive}?) semantics related to this will be explored in the later sections of this paper.}.
+Therefore it is not possible to constructively deduce or derive anything using $\bot$, other than $\bot$ itself.
+
+Similarly for $\top$, intuition tells us that once we know everything there is to know, any additional knowledge gained will be redundant.
+However, knowing that a piece of information could lead us to any conclusion we wish to make does not obviate the need to first ``know'' the antecedent in the first place.
+
+\begin{eqnarray*}
+\top \rightarrow exs \quad&\triangleq&\quad \top \\
+((\top \rightarrow exs_1) \rightarrow exs_2) \rightarrow exs_3 \quad&\triangleq&\quad \top \\
+exs \rightarrow \top \quad&\not\triangleq&\quad \top\\
+(exs_1 \rightarrow \top) \rightarrow exs_2 \quad&\not\triangleq&\quad \top
+\end{eqnarray*}
+
+{\color{gray}
+Every sub-expression of a larger expression also has the parent expression's context.
+However, context is created when an arrow is traversed, hence sub-expressions occuring after one or more arrows will have additional context (once the arrow has been evaluated).
+
+\begin{eqnarray*}
+ctx \vdash exs_1 \rightarrow exs_2 \quad&\triangleq&\quad (ctx \vdash exs_1) \rightarrow exs_2 \\
+ctx \vdash (exs_1 \rightarrow exs_2) \rightarrow exs_3 \quad&\triangleq&\quad (ctx \vdash exs_1 \rightarrow exs_2) \rightarrow exs_3 \\
+                                                            &\triangleq&\quad ((ctx \vdash exs_1) \rightarrow exs_2) \rightarrow exs_3 \\
+ctx \vdash exs_1.exs_2 \quad&\triangleq&\quad (ctx \vdash exs_1).exs_2 \\
+ctx \vdash exs_1.exs_2.exs_3 \quad&\triangleq&\quad (ctx \vdash exs_1.exs_2).exs_3 \\
+                                  &\triangleq&\quad (ctx \vdash exs_1).exs_2.exs_3
+\end{eqnarray*}
+
+Finally, atoms cannot exist twice in the same collection, they are unique elements. Thus,
+
+\begin{eqnarray*}
+(\mathtt{t}\ \mathtt{t}) \quad&\triangleq&\quad \mathtt{t} \\
+(\mathtt{t_a}\ ex_1\ \mathtt{t_b}\ \mathtt{t_b}\ ex_2\ \mathtt{t_a}\ ex_3\ \mathtt{t_c}) \quad&\triangleq&\quad (\mathtt{t_a}\ \mathtt{t_b}\ \mathtt{t_c}\ ex_1\ ex_2\ ex_3) \\
+(\mathtt{t} \rightarrow exs_1 \quad \mathtt{t} \rightarrow exs_2) \quad&\triangleq&\quad \mathtt{t} \rightarrow (exs_1\ exs_2) \\
+(\mathtt{t} \rightarrow exs_1 \quad \mathtt{t}) \quad&\triangleq&\quad (\mathtt{t} \rightarrow exs_1) \\
+(\mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow exs_1 \quad \mathtt{t_a} \rightarrow \mathtt{t_b}) \quad&\triangleq&\quad (\mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow exs_1) \\
+(\mathtt{t_a} \rightarrow (\mathtt{t_b}\ \mathtt{t_c}) \rightarrow exs_1 \quad \mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow exs_2) \quad&\triangleq&\quad (\mathtt{t_a} \rightarrow \mathtt{t_b} \rightarrow (exs_1\ exs_2) \quad \mathtt{t_a} \rightarrow \mathtt{t_c} \rightarrow exs_1)\\
+    \quad&\triangleq&\quad (\mathtt{t_a} \rightarrow (\mathtt{t_b} \rightarrow (exs_1\ exs_2) \quad \mathtt{t_c} \rightarrow exs_1))
+\end{eqnarray*}
+}
+
+\subsection{Philosophical considerations}
+
+\textsl{LangLang} pays special attention to representation in order to study several domains of interest to computer science, more or less in tandem.
+Specifically, we focus on \emph{logic}, \emph{set theory}, \emph{automata theory} and \emph{category theory}, placing each, in turn, into a very similar computational setting.
+Since the notion of computation is inherrently tangled up in the representational issues inherent to each of these fields and we also take the position that making this more explicit could lead to greater clarity and simpler understanding.
+
+\subsubsection{Computation}
+
+
+\subsubsection{Logic and type theory}
+
+{\color{gray}
+Curry-Howard...\\
+Signifiers vs. the signified vs. extension...\\
+Decidability in relation to termination and computational complexity...
+}
+
+\subsubsection{Set theory}
+
+Nesting has traditionally been a tricky problem in classical set theory, leading to paradoxes and somewhat unclear axiomatizations.
+Collections eschew this notion of nesting, instead relying on directed arrows to provide structure.
+{\color{gray}
+This leads to a kind of operational set theory...
+}
+
+\subsubsection{Automata theory}
+
+The \emph{structure} of a \textsl{LangLang} program can be visualized using a kind of directed graph, analogous to other types automata such as finite state machines.
+However individual nodes do not necessarily correspond to a single state as with many other automata.
+In some sense it is more accurate to imagine the graph being consumed by the operational semantics or perhaps instead, simultaneous transitions along several edges from several active nodes.
+
+However, nodes are somewhat more complicated in \textsl{LangLang} as these are themselves structured and state is not generally restricted.
+As with various pushdown automata, the state has a stack-like presentation in the semantics -- given by the context preceding the $\vdash$ token in the operational rules.
+
+We are particularly interested in studying the effect of limiting the structured representation in specific ways in relation to the resulting loss of computational power.
+
+\subsubsection{Category theory}
+
+{\color{gray}
+Representing fibration...\\
+Curry-Howard-Lambek...
+}
+
+\section{Operational Semantics}
+
+\subsection{Extensional reduction}
+\[
+\dfrac{cs \vdash \bot.es}
+{\bot}
+\eqno{ex-reduce-1}
+\]
+
+
+\[
+\dfrac{\vdash (es_1.es_2).es_3}
+{\dfrac{\dfrac{\vdash es_1.es_2}{\vdots}{\scriptstyle \mathtt{ex-reduce}}\;.\;es_3}
+{\vdots}{\scriptstyle \mathtt{ex-reduce}}}
+\eqno{ex-reduce-2}
+\]
+
+
+\[
+\dfrac{\vdash (\bot \rightarrow es_1).es_2}
+{\bot}
+\eqno{ex-reduce-3}
+\]
+
+
+\[
+\dfrac{cs \vdash ((es_1 \rightarrow es_2) \rightarrow es_3).es_4}
+{
+  cs \vdash\left(
+    \begin{array}{c}
+      (es_1 \rightarrow es_2) \rightarrow es_3\\
+      es_1 \rightarrow es_2
+    \end{array}
+  \right)\vdash
+  \dfrac{es_3 \;\cap\; es_4}
+  {\vdots}{\scriptstyle \mathtt{ex-resolve}}
+}
+\eqno{ex-reduce-4}
+\]
+
+
+\[
+\dfrac{\vdash (es_1 \rightarrow .\;es_2).es_3}
+{\bot}
+\eqno{ex-reduce-5}
+\]
+
+
+\[
+\dfrac{c \vdash (es_1 \rightarrow .\;es_2).es_3}
+{\dfrac{
+  c \vdash
+  \dfrac{c \;\cap\; es_1 \rightarrow es_2}
+  {\vdots}{\scriptstyle \mathtt{ex-resolve}}
+  \;.\;es_3
+}{\vdots}{\scriptstyle \mathtt{ex-reduce}}}
+\eqno{ex-reduce-6}
+\]
+
+
+\[
+\dfrac{\vdash \vdots}
+{\dfrac{\vdots}{\vdots}}
+\eqno{ex-reduce-?}
+\]
+
+\subsection{Extensional resolution}
+
+\[
+cs \vdash
+\dfrac{s_1 \;\cap\; s_2}
+{\bot}
+\eqno{ex-resolve-1}
+\]
+
+
+\[
+cs \vdash
+\dfrac{s_1 \;\cap\; s_1}
+{s_1}
+\eqno{ex-resolve-2}
+\]
+
+
+\[
+cs \vdash
+\dfrac{\bot \;\cap\; es_1}
+{\bot}
+\eqno{ex-resolve-3}
+\]
+
+
+\[
+cs \vdash
+\dfrac{\top \;\cap\; es_1}
+{es_1}
+\eqno{ex-resolve-4}
+\]
+
+
+{\color{red} (is this rule really needed? wouldn't it be handled by $ex-reduce-2$?)
+\[
+cs \vdash
+\dfrac{es_1.es_2 \;\cap\; es_3}
+{
+  \dfrac{cs \vdash es_1.es_2}
+  {\vdots}{\scriptstyle \mathtt{ex-resolve}}
+  \;\cap\; es_3
+}
+\eqno{ex-resolve-5}
+\]
+}
+
+
+\[
+cs \vdash
+\dfrac{es_1 \;\cap\; \bot}
+{\bot}
+\eqno{ex-resolve-6}
+\]
+
+
+\[
+cs \vdash
+\dfrac{es_1 \;\cap\; \top}
+{es_1}
+\eqno{ex-resolve-7}
+\]
+
+
+\[
+cs \vdash
+\dfrac{es_1 \rightarrow .\; es_2 \;\cap\; s_3}
+{\bot}
+\eqno{ex-resolve-8}
+\]
+
+
+\[
+cs \vdash
+\dfrac{es_1 \rightarrow .\; es_2 \;\cap\; es_3 \rightarrow es_4}
+{
+  cs \vdash \dfrac{es_1 \;\cap\; es_3}{\vdots} {\scriptstyle \mathtt{ex-resolve}}
+  \rightarrow
+  \left(
+    \dfrac{es_1 \;\cap\; es_3}{\vdots} {\scriptstyle \mathtt{ex-resolve}}
+    \rightarrow .\;es_2
+  \right).es_4
+}
+\eqno{ex-resolve-9}
+\]
+
+
+{\color{gray} TODO
+\[
+cs \vdash
+\dfrac{es_1 \rightarrow es_2 \;\cap\; s_3}
+{\bot}
+\eqno{ex-resolve-10}
+\]
+}
+
+
+\[
+cs \vdash
+\dfrac{es_1 \rightarrow es_2 \;\cap\; es_3 \rightarrow es_4}
+{
+  cs \vdash \dfrac{es_1 \;\cap\; es_3}{\vdots} {\scriptstyle \mathtt{ex-resolve}}
+  \rightarrow
+  \left(
+    \dfrac{es_1 \;\cap\; es_3}{\vdots} {\scriptstyle \mathtt{ex-resolve}}
+    \rightarrow es_2
+  \right).es_4
+}
+\eqno{ex-resolve-11}
+\]
+
+\subsection{Intensional reduction}
+
+\subsection{Intensional resolution}
+
+\section*{Acknowledgements}
+
+\bibliographystyle{plain}
+\bibliography{specification-0.1}
+
+\end{document}
